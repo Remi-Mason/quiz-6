@@ -1,0 +1,102 @@
+<!DOCTYPE html> 
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes heartbeatWithPause {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.15); }
+            60% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+        
+        .heartbeat {
+            position: relative;
+            z-index: 2; /* Assure que cette image reste au premier plan */
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @keyframes backgroundMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            background: linear-gradient(-45deg, #56ccf2, #2f80ed, #29b6f6, #2ecc71);
+            background-size: 400% 400%;
+            animation: backgroundMove 10s ease infinite;
+        }
+
+        .content-box {
+            background: url('https://i.imgur.com/c8myJGY.jpeg') no-repeat center center;
+            background-size: cover;
+            padding: 8px;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 28px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.imgur.com/kdxquJF.gif') no-repeat center center;
+            background-size: 100%;
+            opacity: 1;
+            z-index: 0;
+        }
+
+        .wide-image {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: -97px;
+            transform: scaleX(1.3); /* Étire uniquement la largeur */
+            position: relative;
+            z-index: 1;
+        }
+
+        .start-button {
+            margin-top: 30px;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const img = document.querySelector(".heartbeat");
+            function startHeartbeat() {
+                img.style.animation = "heartbeatWithPause 3s cubic-bezier(0.4, 0, 0.2, 1)";
+                setTimeout(() => {
+                    img.style.animation = "none";
+                    setTimeout(startHeartbeat, 4000);
+                }, 3000);
+            }
+            startHeartbeat();
+        });
+    </script>
+</head>
+<body class="flex items-center justify-center h-screen">
+    <div class="content-box border-4 border-blue-400 p-8 rounded-lg text-center relative">
+        <div class="background-image"></div>
+        <img src="https://i.imgur.com/vgF3WAh.png" alt="Logo" class="heartbeat">
+        <img src="https://i.imgur.com/jLmstuK.gif" alt="Animation" style="margin-top: 20px; display: block; margin-left: auto; margin-right: auto; position: relative; z-index: 1;">
+        <img src="https://i.imgur.com/ORqzcB0.gif" alt="Another Image" class="wide-image">
+        <img src="https://i.imgur.com/BOaVNTh.gif" alt="New Image" style="display: block; position: absolute; top: 30px; left: 50%; transform: translateX(-50%) scale(1.2); z-index: 1;">
+        <a href="questionnaire.html" class="bg-blue-500 p-1 rounded-lg hover:bg-blue-600 transition start-button center justify-center w-fit h-fit">
+            <img src="https://i.imgur.com/yKbGhYw.png" alt="Start Button Image" class="h-12">
+        </a>
+    </div>
+</body>
+</html>
