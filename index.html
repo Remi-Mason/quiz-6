@@ -97,7 +97,7 @@
     .start-button:active {
       transform: scale(0.9);
     }
-    /* Conteneur du quiz avec un fond animé aux nuances de bleu */
+    /* Conteneur du quiz – on retire le centrage vertical pour suivre la position de la page d'accueil */
     #quiz-container {
       display: none;
       position: fixed;
@@ -109,17 +109,26 @@
       overflow-y: auto;
       z-index: 10;
     }
-    /* Style amélioré pour le content box du quiz */
+    /* Style du content box du quiz : même largeur et même position verticale que la page d'accueil */
     .quiz-box {
       background: rgba(255, 255, 255, 0.9);
       border: 3px solid #1a73e8;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      max-width: 100%; /* Utilise toute la largeur disponible du content box de l'accueil */
+      margin-top: 180px; /* Même décalage vertical que la page d'accueil */
+    }
+    /* Le compteur de questions remplace le titre statique */
+    .question-counter {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
     }
   </style>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      // Animation du battement de cœur sur l'image
+      // Animation du battement de cœur
       const img = document.querySelector(".heartbeat");
       function startHeartbeat() {
         img.style.animation = "heartbeatWithPause 3s cubic-bezier(0.4, 0, 0.2, 1)";
@@ -133,7 +142,6 @@
       // Gestion du clic sur le bouton "commencer"
       const startButton = document.querySelector(".start-button");
       const clickSound = document.getElementById("startSound");
-      
       startButton.addEventListener("click", function(event) {
         event.preventDefault();
         clickSound.play();
@@ -148,7 +156,6 @@
 
     function startQuiz() {
       const quizContainer = document.getElementById("quiz-container");
-      // Questions réadaptées pour permettre plusieurs réponses correctes
       const questions = [
         { 
           question: "Parmi les extincteurs suivants, lesquels sont adaptés aux feux d'origine électrique ?",
@@ -193,7 +200,8 @@
       function showQuestion() {
         quizContainer.innerHTML = `
           <div class="quiz-box rounded-lg shadow-md p-6 max-w-md mx-auto">
-            <h2 class="text-2xl font-bold mb-6 text-center">Quiz Sécurité Incendie</h2>
+            <!-- Le compteur de questions remplace le titre statique -->
+            <div class="question-counter">${currentQuestionIndex + 1} / ${questions.length}</div>
             <div id="question-container">
               <p class="text-xl font-bold mb-4">${questions[currentQuestionIndex].question}</p>
               <form id="options-form" class="space-y-2">
@@ -226,8 +234,8 @@
         const correct = questions[currentQuestionIndex].correctAnswers;
         const isCorrect = selected.length === correct.length && selected.every(val => correct.includes(val));
         let feedbackHTML = "";
-        // Retirer le bouton "Valider" (il sera remplacé par le feedback)
         const actionContainer = document.getElementById("action-container");
+        // Supprime le bouton "Valider"
         actionContainer.innerHTML = "";
         if (isCorrect) {
           feedbackHTML = `
@@ -253,7 +261,7 @@
           } else {
             quizContainer.innerHTML = `
               <div class="quiz-box rounded-lg shadow-md p-6 max-w-md mx-auto text-center">
-                <h2 class="text-2xl font-bold mb-6">Quiz terminé !</h2>
+                <div class="question-counter">Quiz terminé</div>
                 <p class="text-xl">Merci d'avoir participé.</p>
               </div>
             `;
