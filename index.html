@@ -1,138 +1,286 @@
 <!DOCTYPE html> 
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questionnaire</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @keyframes heartbeatWithPause {
-            0% { transform: scale(1); }
-            40% { transform: scale(1.15); }
-            60% { transform: scale(1); }
-            100% { transform: scale(1); }
-        }
-        
-        .heartbeat {
-            position: relative;
-            z-index: 2; /* Assure que cette image reste au premier plan */
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questionnaire</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Animation du battement de cœur */
+    @keyframes heartbeatWithPause {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.15); }
+      60% { transform: scale(1); }
+      100% { transform: scale(1); }
+    }
+    .heartbeat {
+      position: relative;
+      z-index: 2;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    /* Animation du fond de la page d'accueil (inchangé) */
+    @keyframes backgroundMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    /* Animation de clignotement */
+    @keyframes fadeBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    /* Animation du glow */
+    @keyframes glow {
+      0% { box-shadow: 0 0 5px #00FFFF; }
+      50% { box-shadow: 0 0 20px #00FFFF, 0 0 30px #4FC3F7; }
+      100% { box-shadow: 0 0 5px #00FFFF; }
+    }
+    /* Animation du gradient pour le quiz avec des nuances de bleu */
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    body {
+      background: linear-gradient(-45deg, #56ccf2, #2f80ed, #29b6f6, #2ecc71);
+      background-size: 400% 400%;
+      animation: backgroundMove 10s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      position: relative;
+    }
+    /* Page d'accueil (inchangée) */
+    .content-box {
+      background: url('https://i.imgur.com/c8myJGY.jpeg') no-repeat center center;
+      background-size: cover;
+      padding: 8px;
+      border-radius: 1rem;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      z-index: 0;
+      margin-top: -60px;
+      text-align: center;
+    }
+    .background-image {
+      position: absolute;
+      top: 28px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://i.imgur.com/kdxquJF.gif') no-repeat center center;
+      background-size: 100%;
+      z-index: 0;
+    }
+    .wide-image {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: -97px;
+      transform: scaleX(1.3);
+      position: relative;
+      z-index: 1;
+    }
+    .start-button {
+      margin-top: 30px;
+      display: inline-block;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.2s;
+      animation: glow 1.5s infinite alternate;
+    }
+    .start-button:active {
+      transform: scale(0.9);
+    }
+    /* Conteneur du quiz avec un fond animé aux nuances de bleu */
+    #quiz-container {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #2193b0, #6dd5ed, #336699, #1a73e8);
+      background-size: 200% 200%;
+      animation: gradientAnimation 15s ease infinite;
+      padding: 20px;
+      overflow-y: auto;
+      z-index: 10;
+    }
+    /* Style amélioré pour le content box du quiz */
+    .quiz-box {
+      background: rgba(255, 255, 255, 0.9);
+      border: 3px solid #1a73e8;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Animation du battement de cœur sur l'image
+      const img = document.querySelector(".heartbeat");
+      function startHeartbeat() {
+        img.style.animation = "heartbeatWithPause 3s cubic-bezier(0.4, 0, 0.2, 1)";
+        setTimeout(() => {
+          img.style.animation = "none";
+          setTimeout(startHeartbeat, 4000);
+        }, 3000);
+      }
+      startHeartbeat();
 
-        @keyframes backgroundMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+      // Gestion du clic sur le bouton "commencer"
+      const startButton = document.querySelector(".start-button");
+      const clickSound = document.getElementById("startSound");
+      
+      startButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        clickSound.play();
+        startButton.style.animation = "fadeBlink 0.5s ease-in-out 9, scaleDown 0.2s ease-in-out 1, glow 0.5s ease-in-out";
+        setTimeout(() => {
+          document.querySelector(".content-box").style.display = "none";
+          document.getElementById("quiz-container").style.display = "block";
+          startQuiz();
+        }, 2000);
+      });
+    });
 
-        @keyframes fadeBlink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+    function startQuiz() {
+      const quizContainer = document.getElementById("quiz-container");
+      // Questions réadaptées pour permettre plusieurs réponses correctes
+      const questions = [
+        { 
+          question: "Parmi les extincteurs suivants, lesquels sont adaptés aux feux d'origine électrique ?",
+          options: [
+            "Extincteur à eau", 
+            "Extincteur au CO2", 
+            "Extincteur à mousse", 
+            "Extincteur à poudre", 
+            "Extincteur au gaz inerte", 
+            "Extincteur à agent chimique"
+          ],
+          correctAnswers: ["Extincteur au CO2", "Extincteur à poudre"]
+        },
+        { 
+          question: "Parmi les équipements suivants, lesquels sont obligatoires dans un établissement recevant du public pour la sécurité incendie ?",
+          options: [
+            "Extincteur", 
+            "Détecteur de fumée", 
+            "Système d'alarme incendie", 
+            "Issue de secours", 
+            "Rétroviseur", 
+            "Ventilateur"
+          ],
+          correctAnswers: ["Extincteur", "Détecteur de fumée", "Système d'alarme incendie", "Issue de secours"]
+        },
+        { 
+          question: "Parmi les sigles suivants, lesquels sont liés à la sécurité incendie ?",
+          options: [
+            "SSIAP (Service de Sécurité Incendie et Assistance aux Personnes)", 
+            "SDIS (Service Départemental d'Incendie et de Secours)", 
+            "SNCF (Société Nationale des Chemins de fer Français)", 
+            "SNEP (Service National de l'Électricité et du Pompage)", 
+            "SAP (Service d'Aide Psychologique)", 
+            "SMD (Service de Maintenance des Détecteurs)"
+          ],
+          correctAnswers: ["SSIAP (Service de Sécurité Incendie et Assistance aux Personnes)", "SDIS (Service Départemental d'Incendie et de Secours)"]
         }
-
-        @keyframes glow {
-            0% { box-shadow: 0 0 5px #00FFFF; }
-            50% { box-shadow: 0 0 20px #00FFFF, 0 0 30px #4FC3F7; }
-            100% { box-shadow: 0 0 5px #00FFFF; }
+      ];
+      
+      let currentQuestionIndex = 0;
+      
+      function showQuestion() {
+        quizContainer.innerHTML = `
+          <div class="quiz-box rounded-lg shadow-md p-6 max-w-md mx-auto">
+            <h2 class="text-2xl font-bold mb-6 text-center">Quiz Sécurité Incendie</h2>
+            <div id="question-container">
+              <p class="text-xl font-bold mb-4">${questions[currentQuestionIndex].question}</p>
+              <form id="options-form" class="space-y-2">
+                ${questions[currentQuestionIndex].options.map((option, index) => `
+                  <div class="flex items-center">
+                    <input type="checkbox" id="option${index}" name="option" value="${option}" class="mr-2">
+                    <label for="option${index}" class="text-lg">${option}</label>
+                  </div>
+                `).join('')}
+              </form>
+              <div id="action-container" class="mt-4">
+                <button id="validate-button" class="w-full py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+                  Valider
+                </button>
+              </div>
+              <div id="result-message" class="mt-4"></div>
+            </div>
+          </div>
+        `;
+        document.getElementById("validate-button").addEventListener("click", checkAnswer);
+      }
+      
+      function checkAnswer() {
+        const selected = Array.from(document.querySelectorAll('#options-form input[name="option"]:checked'))
+                              .map(el => el.value);
+        if (selected.length === 0) {
+          alert("Veuillez sélectionner au moins une réponse.");
+          return;
         }
-
-        body {
-            background: linear-gradient(-45deg, #56ccf2, #2f80ed, #29b6f6, #2ecc71);
-            background-size: 400% 400%;
-            animation: backgroundMove 10s ease infinite;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+        const correct = questions[currentQuestionIndex].correctAnswers;
+        const isCorrect = selected.length === correct.length && selected.every(val => correct.includes(val));
+        let feedbackHTML = "";
+        // Retirer le bouton "Valider" (il sera remplacé par le feedback)
+        const actionContainer = document.getElementById("action-container");
+        actionContainer.innerHTML = "";
+        if (isCorrect) {
+          feedbackHTML = `
+            <div class="flex items-center justify-center my-4">
+              <img src="https://i.imgur.com/XNckN4L.png" alt="Validé" class="h-8 w-8 mr-2">
+              <span class="text-green-600 text-xl font-bold">Bonne réponse !</span>
+            </div>
+          `;
+        } else {
+          feedbackHTML = `
+            <div class="my-4 text-center">
+              <img src="https://i.imgur.com/1B8aL6b.png" alt="Faux" class="h-8 w-8 mx-auto">
+              <p class="text-red-600 text-xl font-bold">Réponse :</p>
+              <p class="text-xl font-bold">${correct.join(" / ")}</p>
+            </div>
+          `;
         }
-
-        .content-box {
-            background: url('https://i.imgur.com/c8myJGY.jpeg') no-repeat center center;
-            background-size: cover;
-            padding: 8px;
-            border-radius: 1rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-            z-index: 0;
-        }
-
-        .background-image {
-            position: absolute;
-            top: 28px;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://i.imgur.com/kdxquJF.gif') no-repeat center center;
-            background-size: 100%;
-            z-index: 0;
-        }
-
-        .wide-image {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: -97px;
-            transform: scaleX(1.3); /* Étire uniquement la largeur */
-            position: relative;
-            z-index: 1;
-        }
-
-        .start-button {
-            margin-top: 30px;
-            display: inline-block;
-            position: relative;
-            z-index: 1;
-            transition: transform 0.2s;
-            animation: glow 1.5s infinite alternate;
-        }
-
-        .start-button:active {
-            transform: scale(0.9);
-        }
-      .content-box {
-    margin-top: -60px; /* Ajuste cette valeur selon le besoin */
-}
-    </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const img = document.querySelector(".heartbeat");
-            function startHeartbeat() {
-                img.style.animation = "heartbeatWithPause 3s cubic-bezier(0.4, 0, 0.2, 1)";
-                setTimeout(() => {
-                    img.style.animation = "none";
-                    setTimeout(startHeartbeat, 4000);
-                }, 3000);
-            }
-            startHeartbeat();
-
-            const startButton = document.querySelector(".start-button");
-            const clickSound = document.getElementById("startSound");
-            
-            startButton.addEventListener("click", function(event) {
-                event.preventDefault();
-                clickSound.play();
-                startButton.style.animation = "fadeBlink 0.5s ease-in-out 9, scaleDown 0.2s ease-in-out 1, glow 0.5s ease-in-out";
-                setTimeout(() => {
-                    window.location.href = startButton.getAttribute("href");
-                }, 2000);
-            });
-        });
-    </script>
+        document.getElementById("result-message").innerHTML = feedbackHTML;
+        setTimeout(() => {
+          currentQuestionIndex++;
+          if (currentQuestionIndex < questions.length) {
+            showQuestion();
+          } else {
+            quizContainer.innerHTML = `
+              <div class="quiz-box rounded-lg shadow-md p-6 max-w-md mx-auto text-center">
+                <h2 class="text-2xl font-bold mb-6">Quiz terminé !</h2>
+                <p class="text-xl">Merci d'avoir participé.</p>
+              </div>
+            `;
+          }
+        }, 2000);
+      }
+      
+      showQuestion();
+    }
+  </script>
 </head>
 <body>
-    <audio id="startSound" src="audio/start.mp3" preload="auto"></audio>
-    <div class="content-box border-4 border-blue-400 p-8 rounded-lg text-center relative">
-        <div class="background-image"></div>
-        <img src="https://i.imgur.com/vgF3WAh.png" alt="Logo" class="heartbeat">
-        <img src="https://i.imgur.com/jLmstuK.gif" alt="Animation" style="margin-top: 20px; display: block; margin-left: auto; margin-right: auto; position: relative; z-index: 1;">
-        <img src="https://i.imgur.com/ORqzcB0.gif" alt="Another Image" class="wide-image">
-        <img src="https://i.imgur.com/BOaVNTh.gif" alt="New Image" style="display: block; position: absolute; top: 30px; left: 50%; transform: translateX(-50%) scale(1.2); z-index: 1;">
-        <a href="questionnaire.html" class="bg-blue-500 py-1 px-8 border-4 border-white rounded-lg transition start-button center justify-center w-fit h-fit">
-            <img src="https://i.imgur.com/yKbGhYw.png" alt="Start Button Image" class="h-12">
-        </a>
-    </div>
+  <audio id="startSound" src="audio/start.mp3" preload="auto"></audio>
+  <!-- Page d'accueil -->
+  <div class="content-box border-4 border-blue-400 p-8 rounded-lg text-center relative">
+    <div class="background-image"></div>
+    <img src="https://i.imgur.com/vgF3WAh.png" alt="Logo" class="heartbeat">
+    <img src="https://i.imgur.com/jLmstuK.gif" alt="Animation" style="margin-top: 20px; display: block; margin-left: auto; margin-right: auto; position: relative; z-index: 1;">
+    <img src="https://i.imgur.com/ORqzcB0.gif" alt="Another Image" class="wide-image">
+    <img src="https://i.imgur.com/BOaVNTh.gif" alt="New Image" style="display: block; position: absolute; top: 30px; left: 50%; transform: translateX(-50%) scale(1.2); z-index: 1;">
+    <!-- Bouton "commencer" -->
+    <a href="#" class="bg-blue-500 py-1 px-8 border-4 border-white rounded-lg transition start-button center justify-center w-fit h-fit">
+      <img src="https://i.imgur.com/yKbGhYw.png" alt="Start Button Image" class="h-12">
+    </a>
+  </div>
+
+  <!-- Conteneur du quiz -->
+  <div id="quiz-container"></div>
 </body>
 </html>
