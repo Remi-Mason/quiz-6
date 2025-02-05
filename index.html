@@ -97,28 +97,17 @@
     .start-button:active {
       transform: scale(0.9);
     }
-    /* Conteneur du quiz – inchangé */
-    #quiz-container {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(135deg, #2193b0, #6dd5ed, #336699, #1a73e8);
-      background-size: 200% 200%;
-      animation: gradientAnimation 15s ease infinite;
-      padding: 20px;
-      overflow-y: auto;
-      z-index: 10;
-    }
-    /* Style du content box du quiz : même largeur que la page d'accueil */
+    /* Style du content box du quiz : même largeur et même position verticale que la page d'accueil */
     .quiz-box {
       background: rgba(255, 255, 255, 0.9);
       border: 3px solid #1a73e8;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      max-width: 100%;
-      overflow: hidden;
+      max-width: 100%; /* Utilise toute la largeur disponible du content box de l'accueil */
+	  overflow: hidden;
+
     }
-    /* Le compteur de questions */
+    /* Le compteur de questions remplace le titre statique */
     .question-counter {
       text-align: center;
       font-size: 1.5rem;
@@ -128,14 +117,6 @@
   </style>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      // Si le quiz a déjà démarré, afficher directement le quiz et forcer le scroll en haut
-      if(localStorage.getItem("quizStarted") === "true"){
-        document.querySelector(".content-box").style.display = "none";
-        document.getElementById("quiz-container").style.display = "block";
-        window.scrollTo(0, 0);
-        startQuiz();
-      }
-
       // Animation du battement de cœur
       const img = document.querySelector(".heartbeat");
       function startHeartbeat() {
@@ -152,13 +133,11 @@
       const clickSound = document.getElementById("startSound");
       startButton.addEventListener("click", function(event) {
         event.preventDefault();
-        localStorage.setItem("quizStarted", "true"); // Marquer le quiz comme démarré
         clickSound.play();
         startButton.style.animation = "fadeBlink 0.5s ease-in-out 9, scaleDown 0.2s ease-in-out 1, glow 0.5s ease-in-out";
         setTimeout(() => {
           document.querySelector(".content-box").style.display = "none";
           document.getElementById("quiz-container").style.display = "block";
-          window.scrollTo(0, 0); // Forcer le scroll en haut
           startQuiz();
         }, 2000);
       });
@@ -210,7 +189,7 @@
       function showQuestion() {
         quizContainer.innerHTML = `
           <div class="quiz-box rounded-lg shadow-md p-6 max-w-md mx-auto">
-            <!-- Affichage du compteur de questions -->
+            <!-- Le compteur de questions remplace le titre statique -->
             <div class="question-counter">${currentQuestionIndex + 1} / ${questions.length}</div>
             <div id="question-container">
               <p class="text-xl font-bold mb-4">${questions[currentQuestionIndex].question}</p>
