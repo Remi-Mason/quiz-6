@@ -21,9 +21,10 @@
     /* Pour simuler un écran de téléphone (fixe à 360px de large) */
     .container {
       background: #fff;
-      padding: 20px 30px;
+	  border: 3px solid #1a73e8;
+      padding: 0px 0px;
       width: 360px;       /* Largeur fixe pour reproduire un mobile */
-      border-radius: 8px;
+      border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       text-align: center;
       margin-bottom: 20px;
@@ -99,12 +100,20 @@
       cursor: pointer;
       margin-top: 20px;
     }
+    .full-width-image {
+  width: 100%; /* Remplit entièrement la largeur du container */
+  height: auto; /* Ajuste la hauteur proportionnellement */
+  display: block; /* Évite les espaces blancs autour de l'image */
+}
   </style>
 </head>
 <body>
   <!-- Page d'accueil -->
   <div class="container" id="home">
-    <h1>Bienvenue sur le Quiz !</h1>
+     <img src="https://i.imgur.com/vgF3WAh.png" alt="Bienvenue sur le Quiz !" width="300">
+      <br> <!-- Saut de ligne pour séparer les images -->
+     <img src="https://i.imgur.com/K5WfEUQ.jpeg" alt="ciel" width="300">
+      <br>
     <button id="start-btn">Start</button>
   </div>
 
@@ -278,3 +287,4 @@
   </script>
 </body>
 </html>
+
