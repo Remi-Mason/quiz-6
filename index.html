@@ -53,6 +53,7 @@
       height: 100vh;
       margin: 0;
       position: block;
+	  
     }
     /* Page d'accueil (inchangée) */
     .content-box {
@@ -291,5 +292,29 @@
 
   <!-- Conteneur du quiz -->
   <div id="quiz-container"></div>
+ <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const quizContainer = document.getElementById("quiz-container");
+        const contentBox = document.querySelector(".content-box");
+
+        // Vérifie si une position est sauvegardée avant l'actualisation
+        const savedScrollY = sessionStorage.getItem("scrollPosition");
+        if (savedScrollY) {
+            window.scrollTo(0, parseInt(savedScrollY)); // Replace correctement après refresh
+        }
+
+        // Sauvegarde la position avant un refresh
+        window.addEventListener("beforeunload", function() {
+            sessionStorage.setItem("scrollPosition", window.scrollY);
+        });
+
+        // S'assure que `.content-box` reste bien centrée après chargement
+        if (contentBox) {
+            setTimeout(() => {
+                contentBox.scrollIntoView({ behavior: "smooth", block: "center" });
+            }, 200);
+        }
+    });
+  </script>
 </body>
 </html>
