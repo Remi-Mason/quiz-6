@@ -47,7 +47,7 @@
       background: linear-gradient(-45deg, #56ccf2, #2f80ed, #29b6f6, #2ecc71);
       background-size: 400% 400%;
       animation: backgroundMove 10s ease infinite;
-      display: flex;
+      display: block;
       align-items: center;
       justify-content: center;
       height: 100vh;
@@ -64,8 +64,10 @@
       position: relative;
       overflow: hidden;
       z-index: 0;
-      transform: translateY(0); /* Assurer un bon positionnement */
       text-align: center;
+	  max-width: 450px;
+      width: 90%; /* Assure une bonne adaptation sur mobile */
+      margin: auto; 
     }
     .background-image {
       position: absolute;
