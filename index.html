@@ -56,15 +56,15 @@
     }
     /* Page d'accueil (inchangée) */
     .content-box {
-      position: absolute;
-      top: 40px;
       background: url('https://i.imgur.com/c8myJGY.jpeg') no-repeat center center;
       background-size: cover;
       padding: 8px;
       border-radius: 1rem;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
       overflow: hidden;
       z-index: 0;
+      margin-top: -60px;
       text-align: center;
     }
     .background-image {
@@ -99,13 +99,12 @@
     }
     /* Style du content box du quiz : même largeur et même position verticale que la page d'accueil */
     .quiz-box {
-      margin-bottom: 50px;
-      flex-grow: 1; /* Permet au contenu de s'ajuster dynamiquement */
       background: rgba(255, 255, 255, 0.9);
       border: 3px solid #1a73e8;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       max-width: 100%; /* Utilise toute la largeur disponible du content box de l'accueil */
+	  overflow: hidden;
 
     }
     /* Le compteur de questions remplace le titre statique */
