@@ -97,18 +97,6 @@
     .start-button:active {
       transform: scale(0.9);
     }
-    /* Conteneur du quiz – on retire le centrage vertical pour suivre la position de la page d'accueil */
-    #quiz-container {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(135deg, #2193b0, #6dd5ed, #336699, #1a73e8);
-      background-size: 200% 200%;
-      animation: gradientAnimation 15s ease infinite;
-      padding: 20px;
-      overflow-y: auto;
-      z-index: 10;
-    }
     /* Style du content box du quiz : même largeur et même position verticale que la page d'accueil */
     .quiz-box {
       background: rgba(255, 255, 255, 0.9);
@@ -116,6 +104,7 @@
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       max-width: 100%; /* Utilise toute la largeur disponible du content box de l'accueil */
+
     }
     /* Le compteur de questions remplace le titre statique */
     .question-counter {
