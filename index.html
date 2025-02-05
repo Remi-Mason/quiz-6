@@ -18,22 +18,26 @@
       justify-content: center;
       background: #f0f0f0;
     }
-  .container {
-  background: url('https://i.imgur.com/K5WfEUQ.jpeg') no-repeat center center;
-  background-size: cover;
-  width: 385px; /* Largeur fixe pour reproduire un mobile */
-  height: auto; /* Ajuste la hauteur automatiquement */
-  aspect-ratio: 385 / 500; /* Ajuste la hauteur proportionnellement */
-  border: 3px solid #1a73e8;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-    /* Page d'accueil */
-    #home h1 {
+    /* Pour simuler un écran de téléphone (fixe à 360px de large) */
+    .container {
+      background: #fff;
+	  border: 3px solid #1a73e8;
+      padding: 20px 30px;
+      width: 360px;       /* Largeur fixe pour reproduire un mobile */
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
       margin-bottom: 20px;
+    }
+    /* Page d'accueil */
+    #home {
+     background: url('https://i.imgur.com/K5WfEUQ.jpeg') no-repeat center center;
+     background-size: cover;
+     height: 600px; /* Augmente la hauteur */
+     display: flex; /* Active Flexbox */
+     flex-direction: column; /* Organise les éléments en colonne */
+     align-items: center; /* Centre horizontalement */
+     justify-content: center; /* Centre verticalement */
     }
     #start-btn {
       padding: 10px 20px;
@@ -102,18 +106,12 @@
       cursor: pointer;
       margin-top: 20px;
     }
-    .full-width-image {
-  width: 100%; /* Remplit entièrement la largeur du container */
-  height: auto; /* Ajuste la hauteur proportionnellement */
-  display: block; /* Évite les espaces blancs autour de l'image */
-}
   </style>
 </head>
 <body>
   <!-- Page d'accueil -->
   <div class="container" id="home">
-     <img src="https://i.imgur.com/vgF3WAh.png" alt="Bienvenue sur le Quiz !" width="300">
-      <br>
+    <h1>Bienvenue sur le Quiz !</h1>
     <button id="start-btn">Start</button>
   </div>
 
@@ -287,4 +285,3 @@
   </script>
 </body>
 </html>
-
