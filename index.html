@@ -167,6 +167,7 @@
     // Démarrage du quiz
     function startQuiz() {
       homeDiv.style.display = "none";
+      resultPage.style.display = "none";
       quizContainer.style.display = "block";
       currentQuestion = 0;
       score = 0;
@@ -176,11 +177,13 @@
     // Affiche la question en cours et ses options
     function showQuestion() {
       resultDiv.innerHTML = "";
-      validateBtn.style.display = "inline-block";
+      // Le bouton Valider reste actif, quelle que soit la sélection
+      validateBtn.disabled = false;
       const data = quizData[currentQuestion];
       questionCounter.textContent = "Question " + (currentQuestion + 1) + " sur " + quizData.length;
       questionText.textContent = data.question;
       optionsDiv.innerHTML = "";
+      
       // Création des options avec checkbox
       data.options.forEach(option => {
         const div = document.createElement("div");
@@ -202,18 +205,24 @@
       const data = quizData[currentQuestion];
       const selectedOptions = Array.from(document.querySelectorAll('input[name="option"]:checked'))
                                   .map(el => el.value);
+      // Si aucune option n'est sélectionnée, afficher un popup et ne rien faire
+      if (selectedOptions.length === 0) {
+        alert("Veuillez sélectionner au moins une réponse");
+        return;
+      }
+      
       // Comparaison des tableaux (ordre non important)
       const isCorrect = arraysEqual(selectedOptions.sort(), data.correctAnswers.sort());
       
-      // Masquer le bouton de validation
+      // Masquer le bouton de validation pour la question courante
       validateBtn.style.display = "none";
 
-      if(isCorrect) {
+      if (isCorrect) {
         score++; // Incrémenter le score pour une réponse correcte
-        // Afficher l'image "correct"
+        // Afficher l'image "Correct"
         resultDiv.innerHTML = `<img src="https://via.placeholder.com/150/00FF00?text=Correct" alt="Correct" class="result-image">`;
       } else {
-        // Afficher l'image "incorrect" + le texte et la réponse exacte
+        // Afficher l'image "Incorrect" avec le texte "Réponse :" et la réponse exacte
         resultDiv.innerHTML = `
           <img src="https://via.placeholder.com/150/FF0000?text=Incorrect" alt="Incorrect" class="result-image">
           <div class="result-text">Réponse :</div>
@@ -225,6 +234,8 @@
       setTimeout(() => {
         currentQuestion++;
         if (currentQuestion < quizData.length) {
+          // Réafficher le bouton Valider pour la prochaine question
+          validateBtn.style.display = "inline-block";
           showQuestion();
         } else {
           showResultPage();
@@ -232,14 +243,14 @@
       }, 2000);
     }
 
-    // Affiche la page de résultats
+    // Affiche la page de résultats finale
     function showResultPage() {
       quizContainer.style.display = "none";
       finalScoreText.textContent = "Votre score : " + score + " sur " + quizData.length;
       resultPage.style.display = "block";
     }
 
-    // Redémarre le quiz
+    // Redémarre le quiz en revenant à la page d'accueil
     function restartQuiz() {
       resultPage.style.display = "none";
       homeDiv.style.display = "block";
@@ -247,9 +258,9 @@
 
     // Fonction utilitaire pour comparer deux tableaux (ordre non important)
     function arraysEqual(arr1, arr2) {
-      if(arr1.length !== arr2.length) return false;
+      if (arr1.length !== arr2.length) return false;
       for (let i = 0; i < arr1.length; i++) {
-        if(arr1[i] !== arr2[i]) return false;
+        if (arr1[i] !== arr2[i]) return false;
       }
       return true;
     }
