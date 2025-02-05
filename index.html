@@ -1,7 +1,6 @@
 <!DOCTYPE html> 
 <html lang="fr">
 <head>
-  <link rel="manifest" href="manifest.json">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Questionnaire</title>
@@ -279,5 +278,26 @@
 
   <!-- Conteneur du quiz -->
   <div id="quiz-container"></div>
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    function enterFullScreen() {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) { // Firefox
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) { // Safari/Chrome
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { // IE/Edge
+        elem.msRequestFullscreen();
+      }
+    }
+
+    // Lance le mode plein écran dès que la page est chargée
+    setTimeout(() => {
+      enterFullScreen();
+    }, 500); // Petit délai pour s'assurer que tout est chargé
+  });
+</script>
 </body>
 </html>
