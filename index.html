@@ -134,6 +134,17 @@
       const startButton = document.querySelector(".start-button");
       const clickSound = document.getElementById("startSound");
       startButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        clickSound.play();
+        startButton.style.animation = "fadeBlink 0.5s ease-in-out 9, scaleDown 0.2s ease-in-out 1, glow 0.5s ease-in-out";
+        setTimeout(() => {
+          document.querySelector(".content-box").style.display = "none";
+          document.getElementById("quiz-container").style.display = "block";
+          if (isMobile()) {
+            enterFullScreen();
+          }
+          startQuiz();
+        }, 2000);
         if (isMobile()) {
           enterFullScreen();
         }
@@ -274,8 +285,7 @@
             `;
           }
         }, 2000);
-      }
-      
+      }      
       showQuestion();
     }
   </script>
