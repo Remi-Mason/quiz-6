@@ -55,18 +55,24 @@
       position: block;
 	  
     }
-    /* Page d'accueil (inchangée) */
-    .content-box {
-      background: url('https://i.imgur.com/c8myJGY.jpeg') no-repeat center center;
-      background-size: cover;
-      padding: 8px;
-      border-radius: 1rem;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-      position: relative;
-      overflow: hidden;
-      z-index: 0;
-      text-align: center;
-    }
+.content-box {
+  background: url('https://i.imgur.com/c8myJGY.jpeg') no-repeat center center;
+  background-size: cover;
+  padding: 8px;
+  border-radius: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  display: flex; /* Centre le contenu de la box */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 0;
+  text-align: center;
+  max-width: 600px; /* Évite que ça s'étende trop */
+  width: 90%; /* Adapte à l'écran */
+  min-height: 50vh; /* Assure que la boîte garde une bonne taille */
+}
+
     .background-image {
       position: absolute;
       top: 28px;
