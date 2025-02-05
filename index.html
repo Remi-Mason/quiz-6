@@ -1,326 +1,258 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <title>Quiz à Réponses Multiples</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Questionnaire</title>
-  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Animation du battement de cœur */
-    @keyframes heartbeatWithPause {
-      0% { transform: scale(1); }
-      40% { transform: scale(1.15); }
-      60% { transform: scale(1); }
-      100% { transform: scale(1); }
-    }
-    .heartbeat {
-      position: relative;
-      z-index: 2;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    /* Animation du fond de la page d'accueil (inchangé) */
-    @keyframes backgroundMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    /* Animation de clignotement */
-    @keyframes fadeBlink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-    /* Animation du glow */
-    @keyframes glow {
-      0% { box-shadow: 0 0 5px #00FFFF; }
-      50% { box-shadow: 0 0 20px #00FFFF, 0 0 30px #4FC3F7; }
-      100% { box-shadow: 0 0 5px #00FFFF; }
-    }
-    /* Animation du gradient pour le quiz avec des nuances de bleu */
-    @keyframes gradientAnimation {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+    /* Style général */
     body {
-      background: linear-gradient(-45deg, #56ccf2, #2f80ed, #29b6f6, #2ecc71);
-      background-size: 400% 400%;
-      animation: backgroundMove 10s ease infinite;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f0f0;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
-      position: block;
-	  
+      min-height: 100vh;
     }
-.content-box {
-  background: url('https://i.imgur.com/c8myJGY.jpeg') no-repeat center center;
-  background-size: cover;
-  padding: 8px;
-  border-radius: 1rem;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  display: flex; /* Centre le contenu de la box */
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  z-index: 0;
-  text-align: center;
-  max-width: 600px; /* Évite que ça s'étende trop */
-  width: 90%; /* Adapte à l'écran */
-  min-height: 50vh; /* Assure que la boîte garde une bonne taille */
-}
-
-    .background-image {
-      position: absolute;
-      top: 28px;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://i.imgur.com/kdxquJF.gif') no-repeat center center;
-      background-size: 100%;
-      z-index: 0;
-    }
-    .wide-image {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      margin-top: -97px;
-      transform: scaleX(1.3);
-      position: relative;
-      z-index: 1;
-    }
-    .start-button {
-      margin-top: 30px;
-      display: inline-block;
-      position: relative;
-      z-index: 1;
-      transition: transform 0.2s;
-      animation: glow 1.5s infinite alternate;
-    }
-    .start-button:active {
-      transform: scale(0.9);
-    }
-    /* Style du content box du quiz : même largeur et même position verticale que la page d'accueil */
-    .quiz-box {
-      background: rgba(255, 255, 255, 0.9);
-      border: 3px solid #1a73e8;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      max-width: 100%; /* Utilise toute la largeur disponible du content box de l'accueil */
-	  overflow: hidden;
-
-    }
-    /* Le compteur de questions remplace le titre statique */
-    .question-counter {
+    .container {
+      background: #fff;
+      padding: 20px 30px;
+      max-width: 600px;
+      width: 90%;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
       text-align: center;
-      font-size: 1.5rem;
+    }
+    /* Page d'accueil */
+    #home h1 {
+      margin-bottom: 20px;
+    }
+    #start-btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    /* Zone du quiz */
+    #quiz-container {
+      display: none;
+    }
+    .question-counter {
       font-weight: bold;
-      margin-bottom: 1rem;
+      margin-bottom: 15px;
+    }
+    .question-text {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    .options {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .option {
+      margin-bottom: 8px;
+    }
+    .option input {
+      margin-right: 8px;
+    }
+    #validate-btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    /* Zone de résultat de chaque question */
+    #result {
+      margin-top: 20px;
+    }
+    .result-image {
+      display: block;
+      margin: 0 auto;
+      max-width: 150px;
+    }
+    .result-text {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .correct-answer-text {
+      color: green;
+      margin-top: 8px;
+    }
+    .incorrect-answer-text {
+      color: red;
+      margin-top: 8px;
+    }
+    /* Page de résultats finale */
+    #result-page {
+      display: none;
+    }
+    #result-page h2 {
+      margin-bottom: 20px;
+    }
+    #restart-btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
     }
   </style>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      // Animation du battement de cœur
-      const img = document.querySelector(".heartbeat");
-      function startHeartbeat() {
-        img.style.animation = "heartbeatWithPause 3s cubic-bezier(0.4, 0, 0.2, 1)";
-        setTimeout(() => {
-          img.style.animation = "none";
-          setTimeout(startHeartbeat, 4000);
-        }, 3000);
-      }
-      startHeartbeat();
-
-      // Gestion du clic sur le bouton "commencer"
-      const startButton = document.querySelector(".start-button");
-      const clickSound = document.getElementById("startSound");
-      startButton.addEventListener("click", function(event) {
-        event.preventDefault();
-        clickSound.play();
-        startButton.style.animation = "fadeBlink 0.5s ease-in-out 9, scaleDown 0.2s ease-in-out 1, glow 0.5s ease-in-out";
-        setTimeout(() => {
-          document.querySelector(".content-box").style.display = "none";
-          document.getElementById("quiz-container").style.display = "block";
-          startQuiz();
-        }, 2000);
-      });
-    });
-
-    function startQuiz() {
-      const quizContainer = document.getElementById("quiz-container");
-      const questions = [
-        { 
-          question: "Parmi les extincteurs suivants, lesquels sont adaptés aux feux d'origine électrique ?",
-          options: [
-            "Extincteur à eau", 
-            "Extincteur au CO2", 
-            "Extincteur à mousse", 
-            "Extincteur à poudre", 
-            "Extincteur au gaz inerte", 
-            "Extincteur à agent chimique"
-          ],
-          correctAnswers: ["Extincteur au CO2", "Extincteur à poudre"]
-        },
-        { 
-          question: "Parmi les équipements suivants, lesquels sont obligatoires dans un établissement recevant du public pour la sécurité incendie ?",
-          options: [
-            "Extincteur", 
-            "Détecteur de fumée", 
-            "Système d'alarme incendie", 
-            "Issue de secours", 
-            "Rétroviseur", 
-            "Ventilateur"
-          ],
-          correctAnswers: ["Extincteur", "Détecteur de fumée", "Système d'alarme incendie", "Issue de secours"]
-        },
-        { 
-          question: "Parmi les sigles suivants, lesquels sont liés à la sécurité incendie ?",
-          options: [
-            "SSIAP (Service de Sécurité Incendie et Assistance aux Personnes)", 
-            "SDIS (Service Départemental d'Incendie et de Secours)", 
-            "SNCF (Société Nationale des Chemins de fer Français)", 
-            "SNEP (Service National de l'Électricité et du Pompage)", 
-            "SAP (Service d'Aide Psychologique)", 
-            "SMD (Service de Maintenance des Détecteurs)"
-          ],
-          correctAnswers: ["SSIAP (Service de Sécurité Incendie et Assistance aux Personnes)", "SDIS (Service Départemental d'Incendie et de Secours)"]
-        }
-      ];
-      
-      let currentQuestionIndex = 0;
-      
-      function showQuestion() {
-        quizContainer.innerHTML = `
-          <div class="quiz-box rounded-lg shadow-md p-6 max-w-md mx-auto">
-            <!-- Le compteur de questions remplace le titre statique -->
-            <div class="question-counter">${currentQuestionIndex + 1} / ${questions.length}</div>
-            <div id="question-container">
-              <p class="text-xl font-bold mb-4">${questions[currentQuestionIndex].question}</p>
-              <form id="options-form" class="space-y-2">
-                ${questions[currentQuestionIndex].options.map((option, index) => `
-                  <div class="flex items-center">
-                    <input type="checkbox" id="option${index}" name="option" value="${option}" class="mr-2">
-                    <label for="option${index}" class="text-lg">${option}</label>
-                  </div>
-                `).join('')}
-              </form>
-              <div id="action-container" class="mt-4">
-                <button id="validate-button" class="w-full py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
-                  Valider
-                </button>
-              </div>
-              <div id="result-message" class="mt-4"></div>
-            </div>
-          </div>
-        `;
-        document.getElementById("validate-button").addEventListener("click", checkAnswer);
-      }
-      
-      function checkAnswer() {
-        const selected = Array.from(document.querySelectorAll('#options-form input[name="option"]:checked'))
-                              .map(el => el.value);
-        if (selected.length === 0) {
-          alert("Veuillez sélectionner au moins une réponse.");
-          return;
-        }
-        const correct = questions[currentQuestionIndex].correctAnswers;
-        const isCorrect = selected.length === correct.length && selected.every(val => correct.includes(val));
-        let feedbackHTML = "";
-        const actionContainer = document.getElementById("action-container");
-        // Supprime le bouton "Valider"
-        actionContainer.innerHTML = "";
-        if (isCorrect) {
-          feedbackHTML = `
-            <div class="flex items-center justify-center my-4">
-              <img src="https://i.imgur.com/XNckN4L.png" alt="Validé" class="h-8 w-8 mr-2">
-              <span class="text-green-600 text-xl font-bold">Bonne réponse !</span>
-            </div>
-          `;
-        } else {
-          feedbackHTML = `
-            <div class="my-4 text-center">
-              <img src="https://i.imgur.com/1B8aL6b.png" alt="Faux" class="h-8 w-8 mx-auto">
-              <p class="text-red-600 text-xl font-bold">Réponse :</p>
-              <p class="text-xl font-bold">${correct.join(" / ")}</p>
-            </div>
-          `;
-        }
-        document.getElementById("result-message").innerHTML = feedbackHTML;
-        setTimeout(() => {
-          currentQuestionIndex++;
-          if (currentQuestionIndex < questions.length) {
-            showQuestion();
-          } else {
-            quizContainer.innerHTML = `
-              <div class="quiz-box rounded-lg shadow-md p-6 max-w-md mx-auto text-center">
-                <div class="question-counter">Quiz terminé</div>
-                <p class="text-xl">Merci d'avoir participé.</p>
-              </div>
-            `;
-          }
-        }, 2000);
-      }
-      
-      showQuestion();
-    }
-	document.addEventListener("DOMContentLoaded", function() {
-    // Vérifie s'il y a une position de scroll sauvegardée
-    const scrollY = sessionStorage.getItem("scrollPosition");
-    if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY)); // Replace l'utilisateur au même endroit
-    }
-
-    // Sauvegarde la position actuelle avant le rechargement
-    window.addEventListener("beforeunload", function() {
-        sessionStorage.setItem("scrollPosition", window.scrollY);
-    });
-});
-
-  </script>
 </head>
 <body>
-  <audio id="startSound" src="audio/start.mp3" preload="auto"></audio>
   <!-- Page d'accueil -->
-  <div class="content-box border-4 border-blue-400 p-8 rounded-lg text-center relative">
-    <div class="background-image"></div>
-    <img src="https://i.imgur.com/vgF3WAh.png" alt="Logo" class="heartbeat">
-    <img src="https://i.imgur.com/jLmstuK.gif" alt="Animation" style="margin-top: 20px; display: block; margin-left: auto; margin-right: auto; position: relative; z-index: 1;">
-    <img src="https://i.imgur.com/ORqzcB0.gif" alt="Another Image" class="wide-image">
-    <img src="https://i.imgur.com/BOaVNTh.gif" alt="New Image" style="display: block; position: absolute; top: 30px; left: 50%; transform: translateX(-50%) scale(1.2); z-index: 1;">
-    <!-- Bouton "commencer" -->
-    <a href="#" class="bg-blue-500 py-1 px-8 border-4 border-white rounded-lg transition start-button center justify-center w-fit h-fit">
-      <img src="https://i.imgur.com/yKbGhYw.png" alt="Start Button Image" class="h-12">
-    </a>
+  <div class="container" id="home">
+    <h1>Bienvenue sur le Quiz !</h1>
+    <button id="start-btn">Start</button>
   </div>
 
-  <!-- Conteneur du quiz -->
-  <div id="quiz-container"></div>
- <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const quizContainer = document.getElementById("quiz-container");
-        const contentBox = document.querySelector(".content-box");
+  <!-- Zone du quiz -->
+  <div class="container" id="quiz-container">
+    <div class="question-counter" id="question-counter">Question 1 sur 3</div>
+    <div class="question-text" id="question-text">[Texte de la question]</div>
+    <div class="options" id="options">
+      <!-- Les options seront générées ici -->
+    </div>
+    <button id="validate-btn">Valider</button>
+    <div id="result"></div>
+  </div>
 
-        // Vérifie si une position est sauvegardée avant l'actualisation
-        const savedScrollY = sessionStorage.getItem("scrollPosition");
-        if (savedScrollY) {
-            window.scrollTo(0, parseInt(savedScrollY)); // Replace correctement après refresh
+  <!-- Page de résultats finale -->
+  <div class="container" id="result-page">
+    <h2>Résultat du Quiz</h2>
+    <p id="final-score">Votre score : 0 sur 3</p>
+    <button id="restart-btn">Recommencer</button>
+  </div>
+
+  <script>
+    // Données du quiz
+    const quizData = [
+      {
+        question: "Quelle(s) couleur(s) sont présentes dans le drapeau français ?",
+        options: ["Bleu", "Blanc", "Rouge", "Vert"],
+        correctAnswers: ["Bleu", "Blanc", "Rouge"]
+      },
+      {
+        question: "Quels jours composent le weekend ?",
+        options: ["Samedi", "Dimanche", "Lundi", "Vendredi"],
+        correctAnswers: ["Samedi", "Dimanche"]
+      },
+      {
+        question: "Sélectionnez les fruits :",
+        options: ["Pomme", "Carotte", "Banane", "Brocoli"],
+        correctAnswers: ["Pomme", "Banane"]
+      }
+    ];
+
+    let currentQuestion = 0; // Index de la question en cours
+    let score = 0; // Nombre de réponses correctes
+
+    // Références aux éléments HTML
+    const homeDiv = document.getElementById("home");
+    const quizContainer = document.getElementById("quiz-container");
+    const startBtn = document.getElementById("start-btn");
+    const questionCounter = document.getElementById("question-counter");
+    const questionText = document.getElementById("question-text");
+    const optionsDiv = document.getElementById("options");
+    const validateBtn = document.getElementById("validate-btn");
+    const resultDiv = document.getElementById("result");
+    const resultPage = document.getElementById("result-page");
+    const finalScoreText = document.getElementById("final-score");
+    const restartBtn = document.getElementById("restart-btn");
+
+    // Événements
+    startBtn.addEventListener("click", startQuiz);
+    validateBtn.addEventListener("click", validateAnswer);
+    restartBtn.addEventListener("click", restartQuiz);
+
+    // Démarrage du quiz
+    function startQuiz() {
+      homeDiv.style.display = "none";
+      quizContainer.style.display = "block";
+      currentQuestion = 0;
+      score = 0;
+      showQuestion();
+    }
+
+    // Affiche la question en cours et ses options
+    function showQuestion() {
+      resultDiv.innerHTML = "";
+      validateBtn.style.display = "inline-block";
+      const data = quizData[currentQuestion];
+      questionCounter.textContent = "Question " + (currentQuestion + 1) + " sur " + quizData.length;
+      questionText.textContent = data.question;
+      optionsDiv.innerHTML = "";
+      // Création des options avec checkbox
+      data.options.forEach(option => {
+        const div = document.createElement("div");
+        div.className = "option";
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = option;
+        checkbox.name = "option";
+        const label = document.createElement("label");
+        label.textContent = option;
+        div.appendChild(checkbox);
+        div.appendChild(label);
+        optionsDiv.appendChild(div);
+      });
+    }
+
+    // Vérifie la réponse de l'utilisateur
+    function validateAnswer() {
+      const data = quizData[currentQuestion];
+      const selectedOptions = Array.from(document.querySelectorAll('input[name="option"]:checked'))
+                                  .map(el => el.value);
+      // Comparaison des tableaux (ordre non important)
+      const isCorrect = arraysEqual(selectedOptions.sort(), data.correctAnswers.sort());
+      
+      // Masquer le bouton de validation
+      validateBtn.style.display = "none";
+
+      if(isCorrect) {
+        score++; // Incrémenter le score pour une réponse correcte
+        // Afficher l'image "correct"
+        resultDiv.innerHTML = `<img src="https://via.placeholder.com/150/00FF00?text=Correct" alt="Correct" class="result-image">`;
+      } else {
+        // Afficher l'image "incorrect" + le texte et la réponse exacte
+        resultDiv.innerHTML = `
+          <img src="https://via.placeholder.com/150/FF0000?text=Incorrect" alt="Incorrect" class="result-image">
+          <div class="result-text">Réponse :</div>
+          <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>
+        `;
+      }
+      
+      // Après un délai, passer à la question suivante ou afficher la page de résultats
+      setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+          showQuestion();
+        } else {
+          showResultPage();
         }
+      }, 2000);
+    }
 
-        // Sauvegarde la position avant un refresh
-        window.addEventListener("beforeunload", function() {
-            sessionStorage.setItem("scrollPosition", window.scrollY);
-        });
+    // Affiche la page de résultats
+    function showResultPage() {
+      quizContainer.style.display = "none";
+      finalScoreText.textContent = "Votre score : " + score + " sur " + quizData.length;
+      resultPage.style.display = "block";
+    }
 
-        // S'assure que `.content-box` reste bien centrée après chargement
-        if (contentBox) {
-            setTimeout(() => {
-                contentBox.scrollIntoView({ behavior: "smooth", block: "center" });
-            }, 200);
-        }
-    });
+    // Redémarre le quiz
+    function restartQuiz() {
+      resultPage.style.display = "none";
+      homeDiv.style.display = "block";
+    }
+
+    // Fonction utilitaire pour comparer deux tableaux (ordre non important)
+    function arraysEqual(arr1, arr2) {
+      if(arr1.length !== arr2.length) return false;
+      for (let i = 0; i < arr1.length; i++) {
+        if(arr1[i] !== arr2[i]) return false;
+      }
+      return true;
+    }
   </script>
 </body>
 </html>
