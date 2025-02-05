@@ -5,13 +5,12 @@
   <title>Quiz à Réponses Multiples</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* Assurer que html et body prennent toute la hauteur de la fenêtre */
+    /* Style général */
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
     }
-    /* Centrage du contenu avec Flexbox */
     body {
       display: flex;
       flex-direction: column;
@@ -27,7 +26,6 @@
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       text-align: center;
-      /* Optionnel : margin-bottom pour éviter que le contenu soit collé en bas sur mobile */
       margin-bottom: 20px;
     }
     /* Page d'accueil */
@@ -191,16 +189,20 @@
       questionText.textContent = data.question;
       optionsDiv.innerHTML = "";
       
-      // Création des options avec checkbox
-      data.options.forEach(option => {
+      // Création des options avec checkbox et label associé
+      data.options.forEach((option, index) => {
         const div = document.createElement("div");
         div.className = "option";
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.value = option;
         checkbox.name = "option";
+        // Attribution d'un identifiant unique pour la checkbox
+        checkbox.id = "option_" + index;
         const label = document.createElement("label");
         label.textContent = option;
+        // Lier le label à la checkbox via l'attribut "for"
+        label.htmlFor = checkbox.id;
         div.appendChild(checkbox);
         div.appendChild(label);
         optionsDiv.appendChild(div);
@@ -218,8 +220,10 @@
         return;
       }
       
-      // Comparaison des tableaux (ordre non important)
-      const isCorrect = arraysEqual(selectedOptions.sort(), data.correctAnswers.sort());
+      // Pour la comparaison, utiliser des copies triées
+      const sortedSelectedOptions = selectedOptions.slice().sort();
+      const sortedCorrectAnswers = data.correctAnswers.slice().sort();
+      const isCorrect = arraysEqual(sortedSelectedOptions, sortedCorrectAnswers);
       
       // Masquer le bouton de validation pour la question courante
       validateBtn.style.display = "none";
@@ -229,11 +233,13 @@
         // Afficher l'image "Correct"
         resultDiv.innerHTML = `<img src="https://via.placeholder.com/150/00FF00?text=Correct" alt="Correct" class="result-image">`;
       } else {
-        // Afficher l'image "Incorrect" avec le texte "Réponse :" et la réponse exacte
+        // Pour afficher les bonnes réponses dans l'ordre des options,
+        // on filtre l'array data.options pour ne retenir que celles qui sont dans data.correctAnswers.
+        const correctAnswersInOrder = data.options.filter(option => data.correctAnswers.includes(option));
         resultDiv.innerHTML = `
           <img src="https://via.placeholder.com/150/FF0000?text=Incorrect" alt="Incorrect" class="result-image">
           <div class="result-text">Réponse :</div>
-          <div class="incorrect-answer-text">${data.correctAnswers.join(", ")}</div>
+          <div class="incorrect-answer-text">${correctAnswersInOrder.join(", ")}</div>
         `;
       }
       
