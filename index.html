@@ -5,16 +5,19 @@
   <title>Quiz à Réponses Multiples</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* Style général */
-    body {
-      font-family: Arial, sans-serif;
+    /* Assurer que html et body prennent toute la hauteur de la fenêtre */
+    html, body {
+      height: 100%;
       margin: 0;
       padding: 0;
-      background: #f0f0f0;
+    }
+    /* Centrage du contenu avec Flexbox */
+    body {
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      background: #f0f0f0;
     }
     .container {
       background: #fff;
@@ -24,6 +27,8 @@
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       text-align: center;
+      /* Optionnel : margin-bottom pour éviter que le contenu soit collé en bas sur mobile */
+      margin-bottom: 20px;
     }
     /* Page d'accueil */
     #home h1 {
@@ -177,8 +182,10 @@
     // Affiche la question en cours et ses options
     function showQuestion() {
       resultDiv.innerHTML = "";
-      // Le bouton Valider reste actif, quelle que soit la sélection
+      // Affichage forcé du bouton Valider pour chaque nouvelle question
+      validateBtn.style.display = "inline-block";
       validateBtn.disabled = false;
+      
       const data = quizData[currentQuestion];
       questionCounter.textContent = "Question " + (currentQuestion + 1) + " sur " + quizData.length;
       questionText.textContent = data.question;
@@ -234,8 +241,6 @@
       setTimeout(() => {
         currentQuestion++;
         if (currentQuestion < quizData.length) {
-          // Réafficher le bouton Valider pour la prochaine question
-          validateBtn.style.display = "inline-block";
           showQuestion();
         } else {
           showResultPage();
