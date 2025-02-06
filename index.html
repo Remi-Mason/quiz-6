@@ -8,6 +8,12 @@
 <meta name="theme-color" content="#87CEFA">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <style>
+@keyframes quizBGAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+}
     @keyframes gradientBG {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -87,20 +93,46 @@
 }
     /* Zone du quiz */
     #quiz-container {
-      background-color: #1E90FF;
+      background: linear-gradient(135deg, #A2D9FF, #74B9FF, #4A90E2, #2C3E50);
+      background-size: 300% 300%;
       border: solid white;
        border-radius: 10px;
       display: none;
+      animation: quizBGAnimation 10s ease infinite;
     }
     .question-counter {
       font-weight: bold;
-      margin-bottom: 15px;
+      margin-bottom: 5px;
+      font-family: 'Arial', Arial, sans-serif;
+      color: white;
+      margin-top: 10px;
     }
     .question-text {
+      width: 95%;
+      margin: 0 auto;
+      font-family: 'Arial Black', Arial, sans-serif;
+      font-weight: bold;
       font-size: 18px;
       margin-bottom: 15px;
+       color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
     }
     .options {
+      font-family: Arial, sans-serif;  /* Utilise Arial sans graisse */
+     font-weight: normal;  
+     font-size: 18px;
+     color: white;
+     text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
       text-align: left;
       margin-bottom: 20px;
       margin-left: 20px;
@@ -110,8 +142,8 @@
     }
     .option input[type="checkbox"] {
   display: none;
-  width: 30px;            /* Taille de la checkbox */
-  height: 30px;
+  width: 40px;            /* Taille de la checkbox */
+  height: 40px;
   margin-right: 8px;      /* Espace entre la checkbox et le texte */
   vertical-align: middle; /* Centre verticalement la checkbox par rapport au texte */
   cursor: pointer;
@@ -119,20 +151,20 @@
 
 .option label {
   position: relative;
-  padding-left: 40px;  /* Laisse de l'espace pour l'image */
+  padding-left: 50px;  /* Laisse de l'espace pour l'image */
   cursor: pointer;
   display: inline-block;
   vertical-align: middle;
   font-size: 18px;
-  line-height: 30px;  /* Aligne le texte verticalement */
+  line-height: 40px;  /* Aligne le texte verticalement */
 }
     .option label:before {
   content: "";
   position: absolute;
   left: 0;
   top: 0;
-  width: 30px;  /* Taille de l'image */
-  height: 30px;
+  width: 40px;  /* Taille de l'image */
+  height: 40px;
   background: url('https://i.imgur.com/4RkFot0.png') no-repeat center center;  /* Image décochée */
   background-size: cover;
 }
@@ -226,6 +258,8 @@
 </head>
 <body>
   <audio id="start-sound" src="audio/start.mp3"></audio>
+  <audio id="checkbox-sound" src="audio/select.mp3"></audio>
+
 
   <!-- Page d'accueil -->
   <div class="container" id="home">
@@ -309,38 +343,46 @@
     }
 
     // Affiche la question en cours et ses options
-    function showQuestion() {
-      resultDiv.innerHTML = "";
-      // Affichage forcé du bouton Valider pour chaque nouvelle question
-      validateBtn.style.display = "inline-block";
-      validateBtn.disabled = false;
-      
-      const data = quizData[currentQuestion];
-      questionCounter.textContent = "Question " + (currentQuestion + 1) + " sur " + quizData.length;
-      questionText.textContent = data.question;
-      optionsDiv.innerHTML = "";
-      
-      // Création des options avec checkbox et label associé
-      data.options.forEach((option, index) => {
-        const div = document.createElement("div");
-        div.className = "option";
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.value = option;
-        checkbox.name = "option";
-        // Attribution d'un identifiant unique pour la checkbox
-        checkbox.id = "option_" + index;
-        const label = document.createElement("label");
-        label.textContent = option;
-        // Lier le label à la checkbox via l'attribut "for"
-        label.htmlFor = checkbox.id;
-        div.appendChild(checkbox);
-        div.appendChild(label);
-        optionsDiv.appendChild(div);
-      });
-    }
+   // Affiche la question en cours et ses options avec son lors du clic sur une checkbox
+function showQuestion() {
+  resultDiv.innerHTML = "";
+  // Affichage forcé du bouton Valider pour chaque nouvelle question
+  validateBtn.style.display = "inline-block";
+  validateBtn.disabled = false;
+  
+  const data = quizData[currentQuestion];
+  questionCounter.textContent = (currentQuestion + 1) + "/" + quizData.length;
+  questionText.textContent = data.question;
+  optionsDiv.innerHTML = "";
+  
+  // Création des options avec checkbox et label associé
+  data.options.forEach((option, index) => {
+    const div = document.createElement("div");
+    div.className = "option";
 
-    // Vérifie la réponse de l'utilisateur
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = option;
+    checkbox.name = "option";
+    checkbox.id = "option_" + index;
+
+    // Ajout du son au clic sur la checkbox
+    checkbox.addEventListener("click", () => {
+      const checkboxSound = document.getElementById("checkbox-sound");
+      checkboxSound.currentTime = 0;  // Recommence le son à chaque clic
+      checkboxSound.play();  // Joue le son
+    });
+
+    const label = document.createElement("label");
+    label.textContent = option;
+    label.htmlFor = checkbox.id;
+
+    div.appendChild(checkbox);
+    div.appendChild(label);
+    optionsDiv.appendChild(div);
+  });
+}
+   // Vérifie la réponse de l'utilisateur
     function validateAnswer() {
       const data = quizData[currentQuestion];
       const selectedOptions = Array.from(document.querySelectorAll('input[name="option"]:checked'))
