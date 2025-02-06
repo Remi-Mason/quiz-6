@@ -87,6 +87,9 @@
 }
     /* Zone du quiz */
     #quiz-container {
+      background-color: #1E90FF;
+      border: solid white;
+       border-radius: 10px;
       display: none;
     }
     .question-counter {
@@ -100,13 +103,43 @@
     .options {
       text-align: left;
       margin-bottom: 20px;
+      margin-left: 20px;
     }
     .option {
-      margin-bottom: 8px;
+      margin-bottom: 15px;
     }
-    .option input {
-      margin-right: 8px;
-    }
+    .option input[type="checkbox"] {
+  display: none;
+  width: 30px;            /* Taille de la checkbox */
+  height: 30px;
+  margin-right: 8px;      /* Espace entre la checkbox et le texte */
+  vertical-align: middle; /* Centre verticalement la checkbox par rapport au texte */
+  cursor: pointer;
+}
+
+.option label {
+  position: relative;
+  padding-left: 40px;  /* Laisse de l'espace pour l'image */
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 18px;
+  line-height: 30px;  /* Aligne le texte verticalement */
+}
+    .option label:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px;  /* Taille de l'image */
+  height: 30px;
+  background: url('https://i.imgur.com/4RkFot0.png') no-repeat center center;  /* Image décochée */
+  background-size: cover;
+}
+    .option input[type="checkbox"]:checked + label:before {
+  background: url('https://i.imgur.com/PQs374i.png') no-repeat center center;  /* Image cochée */
+  background-size: cover;
+}
     #validate-btn {
       padding: 10px 20px;
       font-size: 16px;
@@ -188,8 +221,7 @@
   margin-top: 490px; /* Ajuste cette valeur pour placer le bouton juste en dessous du bouton Start */
   width: 40px;       /* Ajuste la taille si nécessaire */
   cursor: pointer;
-}
-    
+}  
   </style>
 </head>
 <body>
@@ -208,15 +240,15 @@
   </div>
 
   <!-- Zone du quiz -->
-  <div class="container" id="quiz-container">
-    <div class="question-counter" id="question-counter">Question 1 sur 3</div>
-    <div class="question-text" id="question-text">[Texte de la question]</div>
-    <div class="options" id="options">
-      <!-- Les options seront générées ici -->
-    </div>
-    <button id="validate-btn">Valider</button>
-    <div id="result"></div>
+<div class="container" id="quiz-container">
+  <div class="question-counter" id="question-counter">Question 1 sur 3</div>
+  <div class="question-text" id="question-text">[Texte de la question]</div>
+  <div class="options" id="options">
+    <!-- Les options seront générées ici -->
   </div>
+  <button id="validate-btn">Valider</button>
+  <div id="result"></div>
+</div>
 
   <!-- Page de résultats finale -->
   <div class="container" id="result-page">
