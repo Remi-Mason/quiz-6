@@ -38,9 +38,11 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       text-align: center;
       margin-bottom: 20px;
+       overflow: hidden;
     }
     /* Page d'accueil */
     #home {
+      position: relative;
      margin-top: 20px;
      background: url('https://i.imgur.com/K5WfEUQ.jpeg') no-repeat center center;
      background-size: cover;
@@ -53,8 +55,13 @@
      flex-shrink: 0; 
     }
     #start-btn {
-      padding: 10px 20px;
-      font-size: 16px;
+      border: 3px solid #00FFFF;
+       width: 100px;  /* Change cette valeur pour ajuster la largeur */
+  height: auto;
+      padding: 5px 10px;
+      background-color: #1E90FF;
+ /* Fond noir autour du bouton */
+  border-radius: 5px;
       cursor: pointer;
     }
     /* Zone du quiz */
@@ -119,13 +126,54 @@
       cursor: pointer;
       margin-top: 20px;
     }
+    @keyframes floatImage {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+    }
+    .title-image {
+     animation: floatImage 3s ease-in-out infinite;    
+    }
+    .clouding {
+       position: absolute;
+    margin-bottom: 350px;
+         z-index: 0;
+    }
+        .decoring {
+          position: absolute;
+    margin-top: 100px;    
+    }
+            .pikachu {
+              position: absolute;
+    margin-top: 120px;
+    z-index: 2;
+    }
+    .welcome {
+    margin-top: -350px;  
+        z-index: 1;
+    }
+    .grassy {
+      position: absolute;
+      margin-bottom: -180px;
+        z-index: 3;
+    }
+    .startu{
+      position: absolute;
+      margin-top: 350px;
+    }
+    
   </style>
 </head>
 <body>
   <!-- Page d'accueil -->
   <div class="container" id="home">
-    <h1>Bienvenue sur le Quiz !</h1>
-    <button id="start-btn">Start</button>
+    <img src="https://i.imgur.com/yq5gEEG.png" alt="Welcome" width="80%" class="title-image welcome">
+    <img src="https://i.imgur.com/BOaVNTh.gif" alt="clouds" class="clouding">
+    <img src="https://i.imgur.com/r168SIR.gif" alt="decor" class="decoring">
+    <img src="https://i.imgur.com/jLmstuK.gif" alt="pik" class="pikachu">
+    <img src="https://i.imgur.com/ORqzcB0.gif" alt="grass" class="grassy">
+    <img src="https://i.imgur.com/yKbGhYw.png" alt="Start" class="startu" id="start-btn">
+
   </div>
 
   <!-- Zone du quiz -->
@@ -298,3 +346,4 @@
   </script>
 </body>
 </html>
+
