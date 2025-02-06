@@ -181,12 +181,12 @@
     }
     .startu{
       position: absolute;
-      margin-top: 370px;
+      margin-top: 360px;
     }
     .mute-btn {
   position: absolute;
   margin-top: 490px; /* Ajuste cette valeur pour placer le bouton juste en dessous du bouton Start */
-  width: 50px;       /* Ajuste la taille si nécessaire */
+  width: 40px;       /* Ajuste la taille si nécessaire */
   cursor: pointer;
 }
     
@@ -203,7 +203,7 @@
     <img src="https://i.imgur.com/jLmstuK.gif" alt="pik" class="pikachu">
     <img src="https://i.imgur.com/ORqzcB0.gif" alt="grass" class="grassy">
     <img src="https://i.imgur.com/yKbGhYw.png" alt="Start" class="startu" id="start-btn">
-    <img src="https://i.imgur.com/XYZ1234.png" alt="Mute" class="mute-btn" id="mute-btn">
+    <img src="https://i.imgur.com/BXlVlJl.png" alt="Mute" class="mute-btn" id="mute-btn">
 
   </div>
 
@@ -374,7 +374,7 @@
       }
       return true;
     }
-    const muteBtn = document.getElementById("mute-btn");
+  const muteBtn = document.getElementById("mute-btn");
 let isMuted = false;
 
 muteBtn.addEventListener("click", () => {
@@ -382,11 +382,16 @@ muteBtn.addEventListener("click", () => {
   if (isMuted) {
     // Mute le son
     document.querySelectorAll('audio, video').forEach(media => media.muted = true);
+    // Change l'image pour l'état muet
+    muteBtn.src = "https://i.imgur.com/pXbvxY4.png"; // Remplace par l'image du mute
   } else {
     // Active le son
     document.querySelectorAll('audio, video').forEach(media => media.muted = false);
+    // Remet l'image du son activé
+    muteBtn.src = "https://i.imgur.com/3WSvsVf.png"; // Image du son activé
   }
 });
+
     function startQuiz() {
   const startSound = document.getElementById("start-sound");
   startSound.play();  // Joue le son au clic
@@ -401,9 +406,8 @@ muteBtn.addEventListener("click", () => {
     currentQuestion = 0;
     score = 0;
     showQuestion();
-  }, 3000);  
+  }, 2500);  
 }
   </script>
 </body>
 </html>
-
