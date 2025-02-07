@@ -171,11 +171,32 @@
   background: url('https://i.imgur.com/PQs374i.png') no-repeat center center;  /* Image cochée */
   background-size: cover;
 }
-    #validate-btn {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+ #validate-btn {
+  position: relative;
+  margin: 20px auto;
+  width: 150px;  /* Largeur plus grande */
+  padding: 15px 25px;  /* Hauteur augmentée avec plus de padding */
+  font-size: 22px;  /* Texte plus grand */
+  font-family: 'Arial Black', Arial, sans-serif;  /* Mets le texte en Arial Black */
+   text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
+  background-color: #1E90FF;
+  border: 3px solid #00FFFF;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+
+#validate-btn:active {
+  transform: scale(0.95);  /* Effet d'enfoncement au clic */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
     /* Zone de résultat de chaque question */
     #result {
       margin-top: 20px;
@@ -235,7 +256,7 @@
     z-index: 2;
     }
     .welcome {
-    margin-top: -350px;  
+    margin-top: -370px;  
         z-index: 1;
     }
     .grassy {
@@ -332,14 +353,22 @@
     restartBtn.addEventListener("click", restartQuiz);
 
     // Démarrage du quiz
-    function startQuiz() {
-      homeDiv.style.display = "none";
-      resultPage.style.display = "none";
-      quizContainer.style.display = "block";
-      currentQuestion = 0;
-      score = 0;
-      showQuestion();
-    }
+      function startQuiz() {
+  const startSound = document.getElementById("start-sound");
+  startSound.play();  // Joue le son au clic
+  
+  startBtn.style.animation = "blink 0.3s infinite";  // Démarre le clignotement rapide
+
+  setTimeout(() => {
+    startBtn.style.animation = "";  // Arrête le clignotement après 3 secondes
+    homeDiv.style.display = "none";
+    resultPage.style.display = "none";
+    quizContainer.style.display = "block";
+    currentQuestion = 0;
+    score = 0;
+    showQuestion();
+  }, 2500);  
+}
 
     // Affiche la question en cours et ses options
    // Affiche la question en cours et ses options avec son lors du clic sur une checkbox
@@ -435,6 +464,7 @@ function showQuestion() {
 
     // Redémarre le quiz en revenant à la page d'accueil
     function restartQuiz() {
+	window.location.reload();
       resultPage.style.display = "none";
       homeDiv.style.display = "block";
     }
@@ -465,22 +495,7 @@ muteBtn.addEventListener("click", () => {
   }
 });
 
-    function startQuiz() {
-  const startSound = document.getElementById("start-sound");
-  startSound.play();  // Joue le son au clic
-  
-  startBtn.style.animation = "blink 0.3s infinite";  // Démarre le clignotement rapide
-
-  setTimeout(() => {
-    startBtn.style.animation = "";  // Arrête le clignotement après 3 secondes
-    homeDiv.style.display = "none";
-    resultPage.style.display = "none";
-    quizContainer.style.display = "block";
-    currentQuestion = 0;
-    score = 0;
-    showQuestion();
-  }, 2500);  
-}
+ 
   </script>
 </body>
 </html>
