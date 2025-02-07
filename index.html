@@ -208,11 +208,11 @@
     #result {
       margin-top: 20px;
     }
-    .result-image {
-      display: block;
-      margin: 0 auto;
-      max-width: 150px;
-    }
+.result-image {
+  display: block;
+  margin: 0 auto 20px auto; /* Top: 0, Right: auto, Bottom: 20px, Left: auto */
+  max-width: 150px;
+}
     .result-text {
       margin-top: 10px;
       font-size: 18px;
@@ -288,12 +288,56 @@
   user-select: none;  /* Empêche la sélection des images */
   -webkit-user-drag: none;  /* Empêche de glisser les images sur les navigateurs WebKit (comme Chrome, Safari) */
 }
+@keyframes popAnimation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Appliquer l'animation et augmenter la marge inférieure uniquement pour l'image de bonne réponse */
+.result-image.correct {
+  animation: popAnimation 0.5s ease-out;
+  margin-bottom: 26px; /* Ajustez cette valeur pour agrandir la marge inférieure */
+  margin-top: 1px;
+}
+.correct-images-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.side-image {
+  width: 60px;  /* Taille des images latérales */
+  margin: 0;
+  padding: 0;
+}
+
+/* Pour la première image (gauche) : réduire l'espace en tirant vers la droite */
+.correct-images-wrapper img:first-child {
+  animation: levitateLeft 2s ease-in-out infinite !important;
+  }
+
+/* Pour la troisième image (droite) : réduire l'espace en tirant vers la gauche */
+.correct-images-wrapper img:last-child {
+  animation: levitateRight 2s ease-in-out infinite !important;
+}
+@keyframes levitateLeft {
+  0%   { transform: translateX(70px) translateY(-10px); }
+  50%  { transform: translateX(70px) translateY(-15px); }
+  100% { transform: translateX(70px) translateY(-10px); }
+}
+
+@keyframes levitateRight {
+  0%   { transform: translateX(-70px) translateY(-10px); }
+  50%  { transform: translateX(-70px) translateY(-15px); }
+  100% { transform: translateX(-70px) translateY(-10px); }
+}
   </style>
 </head>
 <body>
   <audio id="start-sound" src="audio/start.mp3"></audio>
   <audio id="checkbox-sound" src="audio/select.mp3"></audio>
-
+ <audio id="correct-sound" src="audio/correct.mp3"></audio>
 
   <!-- Page d'accueil -->
   <div class="container" id="home">
@@ -465,10 +509,22 @@ function showQuestion() {
       // Masquer le bouton de validation pour la question courante
       validateBtn.style.display = "none";
 
-      if (isCorrect) {
-        score++; // Incrémenter le score pour une réponse correcte
-        // Afficher l'image "Correct"
-        resultDiv.innerHTML = `<img src="https://via.placeholder.com/150/00FF00?text=Correct" alt="Correct" class="result-image">`;
+     if (isCorrect) {
+  score++; // Incrémente le score pour une réponse correcte
+  
+  // Jouer le son de bonne réponse
+  const correctSound = document.getElementById("correct-sound");
+  correctSound.currentTime = 0;  // Remet le son au début
+  correctSound.play();
+
+  // Affiche le pouce central avec les images latérales
+  resultDiv.innerHTML = `
+    <div class="correct-images-wrapper">
+      <img src="https://i.imgur.com/Ns6suhD.png" alt="Left decoration" class="side-image">
+      <img src="https://i.imgur.com/2y2kmUp.png" alt="Correct" class="result-image correct" style="width:60px;">
+      <img src="https://i.imgur.com/6yai60z.png" alt="Right decoration" class="side-image">
+    </div>
+  `;
       } else {
         // Pour afficher les bonnes réponses dans l'ordre des options,
         // on filtre l'array data.options pour ne retenir que celles qui sont dans data.correctAnswers.
