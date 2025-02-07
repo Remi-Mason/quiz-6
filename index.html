@@ -238,6 +238,7 @@
     }
     /* Page de résultats finale */
     #result-page {
+	 position: relative;
 	 background: linear-gradient(135deg, #A2D9FF, #74B9FF, #4A90E2, #2C3E50);
      background-size: 300% 300%;
 	 animation: quizBGAnimation 10s ease infinite;
@@ -246,11 +247,9 @@
     #result-page h2 {
       margin-bottom: 20px;
     }
-  #restart-btn {
+ #restart-btn {
   position: relative;
   margin: 20px auto;
-  /* Supprimez la largeur fixe pour que le bouton s'adapte au contenu */
-  /* width: 150px; */
   padding: 15px 25px;
   font-size: 22px;
   font-weight: bold;
@@ -267,7 +266,11 @@
   color: white;
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
-  user-select: none;  /* Empêche la sélection du texte */
+  user-select: none;
+  display: flex;              /* Permet d'utiliser Flexbox */
+  align-items: center;        /* Centre verticalement */
+  justify-content: center;    /* Centre horizontalement */
+  text-align: center;         /* Assure le centrage du texte */
 }
 #restart-btn:active {
   transform: scale(0.95);
@@ -423,8 +426,10 @@
 	color: white;
 }
 #final-score {
+  margin-top: 5px;
+  margin-bottom: 5px;
   font-weight: bold; 
-  font-size: 22px;   /* Vous pouvez adapter la taille selon vos préférences */
+  font-size: 25px;   /* Vous pouvez adapter la taille selon vos préférences */
    font-family: 'Arial Black', Arial, sans-serif;
   text-shadow:
     -1px -1px 0 #000,
@@ -435,8 +440,10 @@
 	color: #00ff1a;
 }
 #final-score2 {
+  margin-top: 5px;
+  margin-bottom: 5px;
   font-weight: bold; 
-  font-size: 22px;   /* Vous pouvez adapter la taille selon vos préférences */
+  font-size: 25px;   /* Vous pouvez adapter la taille selon vos préférences */
    font-family: 'Arial Black', Arial, sans-serif;
   text-shadow:
     -1px -1px 0 #000,
@@ -445,6 +452,49 @@
     1px 1px 0 #000,
     3px 3px 5px black;
 	color: #e53517;
+}
+@keyframes shakeVertical {
+  0% { transform: translateY(0); }
+  10% { transform: translateY(-5px); }
+  20% { transform: translateY(5px); }
+  30% { transform: translateY(-5px); }
+  40% { transform: translateY(5px); }
+  50% { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}
+
+.shake-vertical {
+  animation: shakeVertical 4s ease-in-out infinite;
+}
+.gif-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Derrière le contenu avec z-index:2 */
+  pointer-events: none; /* Pour ne pas bloquer les interactions */
+}
+
+.gif-overlay img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@keyframes shakeWindmillPause {
+  0%   { transform: rotate(0deg); }
+  5%   { transform: rotate(-8deg); }
+  10%  { transform: rotate(8deg); }
+  15%  { transform: rotate(-8deg); }
+  20%  { transform: rotate(8deg); }
+  25%  { transform: rotate(-8deg); }
+  30%  { transform: rotate(0deg); } /* Fin de la phase de secousse (environ 1.05s pour un cycle total de 3.5s) */
+  100% { transform: rotate(0deg); } /* Pause pendant le reste du cycle (environ 2.45s) */
+}
+
+.shake-windmill {
+  animation: shakeWindmillPause 3.5s ease-in-out infinite;
+  transform-origin: center;
 }
   </style>
 </head>
@@ -672,41 +722,44 @@ function showQuestion() {
     }
   }, delay);
 }
-  function showResultPage() {
+ function showResultPage() {
   // Masquer le conteneur du quiz
   quizContainer.style.display = "none";
-  
+
   // Préparer le texte du score
   const scoreText = "Score : " + score + " sur " + quizData.length;
-  
-  // Vérifier si le score est parfait
+
   if (score === quizData.length) {
-    // Si le score est parfait, afficher l'image de résultat parfait et jouer le son associé
+    // Si le score est parfait, inclure le GIF overlay
     resultPage.innerHTML = `
-      <h2>Résultat du Quiz</h2>
-      <img src="https://i.imgur.com/AM2FkWm.gif" alt="Perfect" style="width:120px; margin-bottom: -20px; margin-left: -22px;">
-      <p id="final-score">${scoreText}</p>
-      <button id="restart-btn">Recommencer</button>
+      <!-- GIF overlay pour le score parfait -->
+      <div class="gif-overlay">
+        <img src="https://i.imgur.com/66ppZv0.gif" alt="Perfect GIF">
+      </div>
+	  <img src="https://i.imgur.com/IGPRzpC.png" alt="res quiz" class="shake-vertical" style="margin-top: 10px">
+      <img src="https://i.imgur.com/AM2FkWm.gif" alt="Perfect" style="width:120px; margin-bottom: -20px; margin-left: -22px; position: relative; z-index: 2;">
+      <p id="final-score" style="font-weight:bold; color:#00ff1a;">${scoreText}</p>
+      <button id="restart-btn" style="position: relative; z-index: 2;">RECOMMENCER</button>
     `;
     const perfectSound = document.getElementById("perfect-sound");
     perfectSound.currentTime = 0;
     perfectSound.play();
   } else {
-    // Si le score n'est pas parfait, afficher l'image de résultat imparfait et jouer le son associé
+    // Pour un score imparfait, pas de GIF overlay
     resultPage.innerHTML = `
-      <h2>Résultat du Quiz</h2>
-      <img src="https://i.imgur.com/EXAMPLE_imperfect.png" alt="Imperfect" style="width:120px;">
-      <p id="final-score2">${scoreText}</p>
-      <button id="restart-btn">Recommencer</button>
+      <img src="https://i.imgur.com/H16Il0Z.png" alt="res quiz2" style="margin-top: 10px" class="shake-windmill">
+      <img src="https://i.imgur.com/mpMMoec.gif" alt="Imperfect" style="width:200px; margin-bottom: -10px; margin-top: -10px;">
+      <p id="final-score2" style="font-weight:bold; color:#FF0000;">${scoreText}</p>
+      <button id="restart-btn">RECOMMENCER</button>
     `;
     const imperfectSound = document.getElementById("imperfect-sound");
     imperfectSound.currentTime = 0;
     imperfectSound.play();
   }
-  
-  // Afficher la page de résultat
+
+  // Afficher la page de résultats
   resultPage.style.display = "block";
-  
+
   // Réaffecter l'écouteur d'événement sur le bouton de redémarrage
   document.getElementById("restart-btn").addEventListener("click", restartQuiz);
 }
