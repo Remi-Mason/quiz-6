@@ -223,8 +223,16 @@
       margin-top: 8px;
     }
     .incorrect-answer-text {
-      color: red;
-      margin-top: 8px;
+     color: green;      /* Choisissez la couleur souhaitée, ici rouge */
+     font-size: 20px;     /* Ajustez la taille du texte */
+     font-weight: bold;   /* Par exemple, en gras */
+	font-family: 'Arial Black', Arial, sans-serif;
+    text-shadow:
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px 1px 0 #fff;
+	margin-bottom: 10px;
     }
     /* Page de résultats finale */
     #result-page {
@@ -305,6 +313,11 @@
   align-items: center;
   justify-content: center;
 }
+.incorrect-images-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .side-image {
   width: 60px;  /* Taille des images latérales */
@@ -321,6 +334,15 @@
 .correct-images-wrapper img:last-child {
   animation: levitateRight 2s ease-in-out infinite !important;
 }
+/* Pour la première image (gauche) : réduire l'espace en tirant vers la droite */
+.incorrect-images-wrapper img:first-child {
+  animation: levitateLeft2 2s ease-in-out infinite !important;
+  }
+
+/* Pour la troisième image (droite) : réduire l'espace en tirant vers la gauche */
+.incorrect-images-wrapper img:last-child {
+  animation: levitateRight2 2s ease-in-out infinite !important;
+}
 @keyframes levitateLeft {
   0%   { transform: translateX(70px) translateY(-10px); }
   50%  { transform: translateX(70px) translateY(-15px); }
@@ -332,13 +354,55 @@
   50%  { transform: translateX(-70px) translateY(-15px); }
   100% { transform: translateX(-70px) translateY(-10px); }
 }
+.result-image.incorrect {
+  animation: shake 0.5s ease-in-out;
+  margin-bottom: 26px;
+  margin-top: 1px;
+}
+@keyframes shake {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-10px, 0); }
+  20% { transform: translate(10px, 0); }
+  30% { transform: translate(-10px, 0); }
+  40% { transform: translate(10px, 0); }
+  50% { transform: translate(-10px, 0); }
+  60% { transform: translate(10px, 0); }
+  70% { transform: translate(-10px, 0); }
+  80% { transform: translate(10px, 0); }
+  90% { transform: translate(-10px, 0); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes levitateLeft2 {
+  0%   { transform: translateX(70px) translateY(-12px); }
+  50%  { transform: translateX(70px) translateY(-16px); }
+  100% { transform: translateX(70px) translateY(-12px); }
+}
+
+@keyframes levitateRight2 {
+  0%   { transform: translateX(-70px) translateY(-12px); }
+  50%  { transform: translateX(-70px) translateY(-16px); }
+  100% { transform: translateX(-70px) translateY(-12px); }
+}
+.incorrect-answer-header {
+  margin-top: -25px; /* Ajustez cette valeur pour positionner le texte plus haut */
+  font-weight: bold; 
+  font-size: 18px;   /* Vous pouvez adapter la taille selon vos préférences */
+   font-family: 'Arial Black', Arial, sans-serif;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
+	color: white;
+}
   </style>
 </head>
 <body>
   <audio id="start-sound" src="audio/start.mp3"></audio>
   <audio id="checkbox-sound" src="audio/select.mp3"></audio>
- <audio id="correct-sound" src="audio/correct.mp3"></audio>
-
+  <audio id="correct-sound" src="audio/correct.mp3"></audio>
+  <audio id="incorrect-sound" src="audio/incorrect.mp3"></audio>
   <!-- Page d'accueil -->
   <div class="container" id="home">
     <img src="https://i.imgur.com/yq5gEEG.png" alt="Welcome" width="80%" class="title-image welcome">
@@ -526,15 +590,23 @@ function showQuestion() {
     </div>
   `;
       } else {
-        // Pour afficher les bonnes réponses dans l'ordre des options,
-        // on filtre l'array data.options pour ne retenir que celles qui sont dans data.correctAnswers.
-        const correctAnswersInOrder = data.options.filter(option => data.correctAnswers.includes(option));
-        resultDiv.innerHTML = `
-          <img src="https://via.placeholder.com/150/FF0000?text=Incorrect" alt="Incorrect" class="result-image">
-          <div class="result-text">Réponse :</div>
-          <div class="incorrect-answer-text">${correctAnswersInOrder.join(", ")}</div>
-        `;
-      }
+        // Jouer le son pour une réponse incorrecte
+  const incorrectSound = document.getElementById("incorrect-sound");
+  incorrectSound.currentTime = 0;  // Remet le son au début
+  incorrectSound.play();
+
+  // Filtrer les bonnes réponses pour les afficher
+  const correctAnswersInOrder = data.options.filter(option => data.correctAnswers.includes(option));
+  resultDiv.innerHTML = `
+    <div class="incorrect-images-wrapper">
+      <img src="https://i.imgur.com/AhLyHkm.png" alt="Left decoration" class="side-image">
+      <img src="https://i.imgur.com/wGqNOcs.png" alt="Incorrect" class="result-image incorrect" style="width:60px;">
+      <img src="https://i.imgur.com/5twMjUW.png" alt="Right decoration" class="side-image">
+    </div>
+    <div class="incorrect-answer-header">Réponse :</div>
+    <div class="incorrect-answer-text">${correctAnswersInOrder.join(", ")}</div>
+  `;
+}
       
       // Après un délai, passer à la question suivante ou afficher la page de résultats
       setTimeout(() => {
