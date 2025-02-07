@@ -133,11 +133,11 @@
     1px 1px 0 #000,
     3px 3px 5px black;
       text-align: left;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       margin-left: 20px;
     }
     .option {
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
     .option input[type="checkbox"] {
   display: none;
@@ -190,6 +190,8 @@
   color: white;
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
+      margin-bottom: 0px;
+	 margin-top: 0px;
   
   **user-select: none;**  /* Empêche la sélection du texte */
 }
@@ -322,14 +324,14 @@
     // Données du quiz
     const quizData = [
       {
-        question: "Quelle(s) couleur(s) sont présentes dans le drapeau français ?",
-        options: ["Bleu", "Blanc", "Rouge", "Vert"],
-        correctAnswers: ["Bleu", "Blanc", "Rouge"]
+        question: "Sur quel feu peut-on utiliser un extincteur à eau pulvérisée avec additif (A.F.F.F):",
+        options: ["Classe A", "Classe B", "Classe C", "Classe D", "Classe F", "Aucune des réponses"],
+        correctAnswers: ["Classe A", "Classe B"]
       },
       {
-        question: "Quels jours composent le weekend ?",
-        options: ["Samedi", "Dimanche", "Lundi", "Vendredi"],
-        correctAnswers: ["Samedi", "Dimanche"]
+        question: "Qu'est-ce qu'une main courante:",
+        options: ["le cahier de consignes du service sécurité", "un document où l'on enregistre tous les événement de chaque journée", "un document où l'on archive les rapports des bureaux de contrôles", "Aucune des réponses"],
+        correctAnswers: ["un document où l'on enregistre tous les événement de chaque journée"]
       },
       {
         question: "Sélectionnez les fruits :",
