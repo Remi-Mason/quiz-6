@@ -147,28 +147,31 @@
   vertical-align: middle; /* Centre verticalement la checkbox par rapport au texte */
   cursor: pointer;
 }
-
 .option label {
   position: relative;
-  padding-left: 50px;  /* Laisse de l'espace pour l'image */
+  padding-left: 50px;  /* Espace pour l'image */
   cursor: pointer;
   display: inline-block;
   vertical-align: middle;
   font-size: 18px;
-  line-height: 40px;  /* Aligne le texte verticalement */
+  line-height: 1.3;    /* Pour les textes sur plusieurs lignes */
+  min-height: 40px;    /* La hauteur de la checkbox */
 }
-    .option label:before {
+
+.option label:before {
   content: "";
   position: absolute;
   left: 0;
-  top: 0;
-  width: 40px;  /* Taille de l'image */
+  top: 50%;              
+  transform: translateY(-50%); /* Centre l'image verticalement */
+  width: 40px;
   height: 40px;
-  background: url('https://i.imgur.com/4RkFot0.png') no-repeat center center;  /* Image décochée */
+  background: url('https://i.imgur.com/4RkFot0.png') no-repeat center center;
   background-size: cover;
 }
-    .option input[type="checkbox"]:checked + label:before {
-  background: url('https://i.imgur.com/PQs374i.png') no-repeat center center;  /* Image cochée */
+
+.option input[type="checkbox"]:checked + label:before {
+  background: url('https://i.imgur.com/PQs374i.png') no-repeat center center;
   background-size: cover;
 }
 #validate-btn {
@@ -334,9 +337,9 @@
         correctAnswers: ["un document où l'on enregistre tous les événement de chaque journée"]
       },
       {
-        question: "Sélectionnez les fruits :",
-        options: ["Pomme", "Carotte", "Banane", "Brocoli"],
-        correctAnswers: ["Pomme", "Banane"]
+        question: "Qu'est-ce que l'alerte:",
+        options: ["Demander l'intervention des Équipiers de Première Intervention", "Prevenir le directeur", "Prevenir le poste de sécurité", "Demander l'intervention des secours (sapeurs-pompiers/EDF/Police...)", "Aucune des réponses"],
+        correctAnswers: ["Prevenir le poste de sécurité"]
       }
     ];
 
@@ -381,9 +384,27 @@
 
     // Affiche la question en cours et ses options
    // Affiche la question en cours et ses options avec son lors du clic sur une checkbox
+// Fonction d'ajustement pour centrer les labels à ligne unique
+function adjustSingleLineLabels() {
+  const labels = optionsDiv.querySelectorAll("label");
+  labels.forEach(label => {
+    // Si la hauteur du label est inférieure ou égale à 40px, on considère que c'est une ligne unique
+    if (label.offsetHeight <= 40) {
+      label.style.display = "flex";
+      label.style.alignItems = "center";
+      label.style.height = "40px";  // Force la hauteur pour centrer correctement
+    } else {
+      // Pour les labels sur plusieurs lignes, on rétablit le style par défaut
+      label.style.display = "inline-block";
+      label.style.height = "auto";
+    }
+  });
+}
+
+// Fonction showQuestion complète
 function showQuestion() {
   resultDiv.innerHTML = "";
-  // Affichage forcé du bouton Valider pour chaque nouvelle question
+  // Afficher le bouton de validation pour chaque nouvelle question
   validateBtn.style.display = "inline-block";
   validateBtn.disabled = false;
   
@@ -403,11 +424,11 @@ function showQuestion() {
     checkbox.name = "option";
     checkbox.id = "option_" + index;
 
-    // Ajout du son au clic sur la checkbox
+    // Ajout du son lors du clic sur la checkbox
     checkbox.addEventListener("click", () => {
       const checkboxSound = document.getElementById("checkbox-sound");
-      checkboxSound.currentTime = 0;  // Recommence le son à chaque clic
-      checkboxSound.play();  // Joue le son
+      checkboxSound.currentTime = 0;
+      checkboxSound.play();
     });
 
     const label = document.createElement("label");
@@ -418,7 +439,11 @@ function showQuestion() {
     div.appendChild(label);
     optionsDiv.appendChild(div);
   });
+
+  // Laisser le temps au navigateur de calculer la hauteur et ajuster les labels
+  setTimeout(adjustSingleLineLabels, 0);
 }
+
    // Vérifie la réponse de l'utilisateur
     function validateAnswer() {
       const data = quizData[currentQuestion];
