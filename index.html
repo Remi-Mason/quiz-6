@@ -237,17 +237,41 @@
     }
     /* Page de résultats finale */
     #result-page {
+	 background: linear-gradient(135deg, #A2D9FF, #74B9FF, #4A90E2, #2C3E50);
+     background-size: 300% 300%;
+	 animation: quizBGAnimation 10s ease infinite;
       display: none;
     }
     #result-page h2 {
       margin-bottom: 20px;
     }
-    #restart-btn {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
+  #restart-btn {
+  position: relative;
+  margin: 20px auto;
+  /* Supprimez la largeur fixe pour que le bouton s'adapte au contenu */
+  /* width: 150px; */
+  padding: 15px 25px;
+  font-size: 22px;
+  font-weight: bold;
+  font-family: 'Arial Black', Arial, sans-serif;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
+  background-color: #1E90FF;
+  border: 3px solid #00FFFF;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  user-select: none;  /* Empêche la sélection du texte */
+}
+#restart-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
     @keyframes floatImage {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
@@ -397,6 +421,30 @@
     3px 3px 5px black;
 	color: white;
 }
+#final-score {
+  font-weight: bold; 
+  font-size: 22px;   /* Vous pouvez adapter la taille selon vos préférences */
+   font-family: 'Arial Black', Arial, sans-serif;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
+	color: #00ff1a;
+}
+#final-score2 {
+  font-weight: bold; 
+  font-size: 22px;   /* Vous pouvez adapter la taille selon vos préférences */
+   font-family: 'Arial Black', Arial, sans-serif;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    3px 3px 5px black;
+	color: #e53517;
+}
   </style>
 </head>
 <body>
@@ -404,6 +452,8 @@
   <audio id="checkbox-sound" src="audio/select.mp3"></audio>
   <audio id="correct-sound" src="audio/correct.mp3"></audio>
   <audio id="incorrect-sound" src="audio/incorrect.mp3"></audio>
+  <audio id="perfect-sound" src="audio/perfect.mp3"></audio>
+<audio id="imperfect-sound" src="audio/imperfect.mp3"></audio>
   <!-- Page d'accueil -->
   <div class="container" id="home">
     <img src="https://i.imgur.com/yq5gEEG.png" alt="Welcome" width="90%" class="title-image welcome">
@@ -430,7 +480,7 @@
   <!-- Page de résultats finale -->
   <div class="container" id="result-page">
     <h2>Résultat du Quiz</h2>
-    <p id="final-score">Votre score : 0 sur 3</p>
+    <p id="final-score">Score : 0 sur 3</p>
     <button id="restart-btn">Recommencer</button>
   </div>
 
@@ -621,20 +671,55 @@ function showQuestion() {
     }
   }, delay);
 }
+  function showResultPage() {
+  // Masquer le conteneur du quiz
+  quizContainer.style.display = "none";
+  
+  // Préparer le texte du score
+  const scoreText = "Score : " + score + " sur " + quizData.length;
+  
+  // Vérifier si le score est parfait
+  if (score === quizData.length) {
+    // Si le score est parfait, afficher l'image de résultat parfait et jouer le son associé
+    resultPage.innerHTML = `
+      <h2>Résultat du Quiz</h2>
+      <img src="https://i.imgur.com/AM2FkWm.gif" alt="Perfect" style="width:120px; margin-bottom: -20px; margin-left: -22px;">
+      <p id="final-score">${scoreText}</p>
+      <button id="restart-btn">Recommencer</button>
+    `;
+    const perfectSound = document.getElementById("perfect-sound");
+    perfectSound.currentTime = 0;
+    perfectSound.play();
+  } else {
+    // Si le score n'est pas parfait, afficher l'image de résultat imparfait et jouer le son associé
+    resultPage.innerHTML = `
+      <h2>Résultat du Quiz</h2>
+      <img src="https://i.imgur.com/EXAMPLE_imperfect.png" alt="Imperfect" style="width:120px;">
+      <p id="final-score2">${scoreText}</p>
+      <button id="restart-btn">Recommencer</button>
+    `;
+    const imperfectSound = document.getElementById("imperfect-sound");
+    imperfectSound.currentTime = 0;
+    imperfectSound.play();
+  }
+  
+  // Afficher la page de résultat
+  resultPage.style.display = "block";
+  
+  // Réaffecter l'écouteur d'événement sur le bouton de redémarrage
+  document.getElementById("restart-btn").addEventListener("click", restartQuiz);
+}
+function restartQuiz() {
+  // Arrêter et réinitialiser tous les éléments audio
+  document.querySelectorAll('audio').forEach(audio => {
+    audio.pause();
+    audio.currentTime = 0;
+  });
 
-    // Affiche la page de résultats finale
-    function showResultPage() {
-      quizContainer.style.display = "none";
-      finalScoreText.textContent = "Votre score : " + score + " sur " + quizData.length;
-      resultPage.style.display = "block";
-    }
-
-    // Redémarre le quiz en revenant à la page d'accueil
-   function restartQuiz() {
   document.body.classList.add('hidden');  // Cache le contenu avant de recharger
   setTimeout(() => {
     window.location.reload();  // Recharge la page après un court délai
-  }, 100);  // 100 ms suffisent pour cacher la page avant le rechargement
+  }, 100);
 }
 
     // Fonction utilitaire pour comparer deux tableaux (ordre non important)
