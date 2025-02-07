@@ -608,16 +608,18 @@ function showQuestion() {
   `;
 }
       
-      // Après un délai, passer à la question suivante ou afficher la page de résultats
-      setTimeout(() => {
-        currentQuestion++;
-        if (currentQuestion < quizData.length) {
-          showQuestion();
-        } else {
-          showResultPage();
-        }
-      }, 2000);
+   // Définir le délai d'affichage : 2000 ms pour une réponse correcte, 4000 ms pour une réponse incorrecte
+  const delay = isCorrect ? 2000 : 4000;
+  
+  setTimeout(() => {
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+      showQuestion();
+    } else {
+      showResultPage();
     }
+  }, delay);
+}
 
     // Affiche la page de résultats finale
     function showResultPage() {
