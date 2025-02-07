@@ -78,7 +78,7 @@
     #start-btn {
       border: 3px solid #00FFFF;
       border-radius: 10px;
-      width: 110px;  /* Change cette valeur pour ajuster la largeur */
+      width: 120px;  /* Change cette valeur pour ajuster la largeur */
       height: auto;
       padding: 5px 10px;
       background-color: #1E90FF;
@@ -274,6 +274,9 @@
   width: 40px;       /* Ajuste la taille si nécessaire */
   cursor: pointer;
 }  
+    .hidden {
+  display: none !important;  /* Cache complètement le contenu */
+}
   </style>
 </head>
 <body>
@@ -463,11 +466,12 @@ function showQuestion() {
     }
 
     // Redémarre le quiz en revenant à la page d'accueil
-    function restartQuiz() {
-	window.location.reload();
-      resultPage.style.display = "none";
-      homeDiv.style.display = "block";
-    }
+   function restartQuiz() {
+  document.body.classList.add('hidden');  // Cache le contenu avant de recharger
+  setTimeout(() => {
+    window.location.reload();  // Recharge la page après un court délai
+  }, 100);  // 100 ms suffisent pour cacher la page avant le rechargement
+}
 
     // Fonction utilitaire pour comparer deux tableaux (ordre non important)
     function arraysEqual(arr1, arr2) {
