@@ -87,7 +87,7 @@
     .pikachu {
       display: block;
       margin: 0 auto;
-	  margin-top: 10px;
+      margin-top: 10px;
       width: 290px;
       height: 215px;
     }
@@ -317,175 +317,176 @@
       position: relative;
       overflow: visible;
       animation: borderGlow2 2s ease-in-out infinite;
-	   z-index: 6; 
+       z-index: 6; 
     }
     #restart-btn:active { transform: scale(0.95); }
     /* Media Query pour mobile */
     @media (max-width: 480px) {
       .container {       
-	  width: 360px;
-      max-width: 90%;
-      padding: 30px;
-
-	  }
-	    #overlay {
-    top: 85px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-  }
+        width: 360px;
+        max-width: 90%;
+        padding: 30px;
+      }
+      /* Vous pouvez retirer ou adapter cette règle si elle n'est plus nécessaire */
+      #overlay {
+        top: 85px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+      }
       #question-text { font-size: 18px; }
       #final-score { font-size: 20px; }
       .floating-title { margin: 0 auto 0px; }
       .pikachu {
-      display: block;
-      margin-top: 5px !important;
-
-    }
-    .startu { border-radius: 10px; }
-    .decor-right {
-      width: 80px;
-      transform: translate(-40px, -5px);
-      z-index: 0;
-      padding: 12px 0px;
-	  		 animation: levitateRight 1s ease-in-out;
-    }
-    .decor-left {
-      width: 80px;
-      transform: translate(40px, -5px);
-      z-index: 0;
-      padding: 12px 0px;
-	  		 animation: levitateLeft 1s ease-in-out;
-    }
-    .incorrect-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .decor-rightX {
-      width: 80px;
-      transform: translate(-50px, 0px);
-      z-index: 0;
-      padding: 12px 0px;
-    }
-    .decor-leftX {
-      width: 80px;
-      transform: translate(50px, 0px);
-      z-index: 0;
-      padding: 12px 0px;
-    }
-    .again {
-      display: block;
-      margin: 0 auto 0px;
-    }
-    @keyframes windmillShake {
-      0% { transform: rotate(0deg); }
-      15% { transform: rotate(15deg); }
-      30% { transform: rotate(-15deg); }
-      45% { transform: rotate(10deg); }
-      60% { transform: rotate(-10deg); }
-      75% { transform: rotate(5deg); }
-      90% { transform: rotate(-5deg); }
-      100% { transform: rotate(0deg); }
-    }
-    .windmill-shake {
-      animation: windmillShake 0.8s ease-in-out forwards;
-      transform-origin: center;
-    }
-    .raised {
-      transform: translateY(-20px);
-      margin-bottom: -10px !important;
-    }
-    @keyframes victoryAnimation {
-      0% { transform: scale(1) rotate(0deg); }
-      20% { transform: scale(1.1) rotate(3deg); }
-      40% { transform: scale(1) rotate(-3deg); }
-      60% { transform: scale(1.1) rotate(3deg); }
-      80% { transform: scale(1) rotate(-3deg); }
-      90% { transform: scale(1) rotate(0deg); }
-      100% { transform: scale(1) rotate(0deg); }
-    }
-    .victory-animation {
-      animation: victoryAnimation 2s ease-in-out infinite;
-      transform-origin: center;
-    }
-    @media (max-width: 480px) {
-      .pikachu {
-      display: block;
-      margin: 0 auto;
-      width: 290px;
-      height: 215px;
-      }
-    }
-    @media (max-width: 480px) {
-      .again {
-        width: 85%;
-        margin: 0 auto;
-        transform: translateX(0px);
-      }
-    }
-    @media (max-width: 480px) {	  
-      #result-header {
         display: block;
-        margin: 0 auto 20px;
-        width: 85%;
+        margin-top: 5px auto;
       }
-    }
-    @media (max-width: 480px) {	  
+      .startu { border-radius: 10px; }
       .decor-right {
         width: 80px;
-        transform: translate(5px, -5px) !important;
+        transform: translate(-40px, -5px);
         z-index: 0;
         padding: 12px 0px;
-		 animation: levitateRight 1s ease-in-out infinite;
+        animation: levitateRight 1s ease-in-out;
       }
-    }
-    @media (max-width: 480px) {	  
       .decor-left {
         width: 80px;
-        transform: translate(-5px, -5px) !important;
+        transform: translate(40px, -5px);
         z-index: 0;
-        padding: 12px 0px;a
-		 animation: levitateLeft 1s ease-in-out infinite;
+        padding: 12px 0px;
+        animation: levitateLeft 1s ease-in-out;
       }
-    }
-    @media (max-width: 480px) {	  
+      .incorrect-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
       .decor-rightX {
         width: 80px;
-        transform: translate(-20px, 0px);
+        transform: translate(-50px, 0px);
         z-index: 0;
         padding: 12px 0px;
       }
-    }
-    @media (max-width: 480px) {	  
       .decor-leftX {
         width: 80px;
-        transform: translate(20px, 0px);
+        transform: translate(50px, 0px);
         z-index: 0;
         padding: 12px 0px;
       }
-    }
-	@keyframes levitateLeft {
-  0%   { transform: translate(40px, -5px); }
-  50%  { transform: translate(40px, -15px); } /* monte de 10px */
-  100% { transform: translate(40px, -5px); }
+      .again {
+        display: block;
+        margin: 0 auto 0px;
+      }
+      @keyframes windmillShake {
+        0% { transform: rotate(0deg); }
+        15% { transform: rotate(15deg); }
+        30% { transform: rotate(-15deg); }
+        45% { transform: rotate(10deg); }
+        60% { transform: rotate(-10deg); }
+        75% { transform: rotate(5deg); }
+        90% { transform: rotate(-5deg); }
+        100% { transform: rotate(0deg); }
+      }
+      .windmill-shake {
+        animation: windmillShake 0.8s ease-in-out forwards;
+        transform-origin: center;
+      }
+      .raised {
+        transform: translateY(-20px);
+        margin-bottom: -10px !important;
+      }
+      @keyframes victoryAnimation {
+        0% { transform: scale(1) rotate(0deg); }
+        20% { transform: scale(1.1) rotate(3deg); }
+        40% { transform: scale(1) rotate(-3deg); }
+        60% { transform: scale(1.1) rotate(3deg); }
+        80% { transform: scale(1) rotate(-3deg); }
+        90% { transform: scale(1) rotate(0deg); }
+        100% { transform: scale(1) rotate(0deg); }
+      }
+      .victory-animation {
+        animation: victoryAnimation 2s ease-in-out infinite;
+        transform-origin: center;
+      }
+      @media (max-width: 480px) {
+        .pikachu {
+          display: block;
+          margin: 0 auto;
+          width: 290px;
+          height: 215px;
+        }
+      }
+      @media (max-width: 480px) {
+        .again {
+          width: 85%;
+          margin: 0 auto;
+          transform: translateX(0px);
+        }
+      }
+      @media (max-width: 480px) {      
+        #result-header {
+          display: block;
+          margin: 0 auto 20px;
+          width: 85%;
+        }
+      }
+      @media (max-width: 480px) {      
+        .decor-right {
+          width: 80px;
+          transform: translate(5px, -5px) !important;
+          z-index: 0;
+          padding: 12px 0px;
+          animation: levitateRight 1s ease-in-out infinite;
+        }
+      }
+      @media (max-width: 480px) {      
+        .decor-left {
+          width: 80px;
+          transform: translate(-5px, -5px) !important;
+          z-index: 0;
+          padding: 12px 0px;
+          animation: levitateLeft 1s ease-in-out infinite;
+        }
+      }
+      @media (max-width: 480px) {      
+        .decor-rightX {
+          width: 80px;
+          transform: translate(-20px, 0px);
+          z-index: 0;
+          padding: 12px 0px;
+        }
+      }
+      @media (max-width: 480px) {      
+        .decor-leftX {
+          width: 80px;
+          transform: translate(20px, 0px);
+          z-index: 0;
+          padding: 12px 0px;
+        }
+      }
+      @keyframes levitateLeft {
+        0%   { transform: translate(40px, -5px); }
+        50%  { transform: translate(40px, -15px); } /* monte de 10px */
+        100% { transform: translate(40px, -5px); }
+      }
+      @keyframes levitateRight {
+        0%   { transform: translate(-40px, -5px); }
+        50%  { transform: translate(-40px, -15px); } /* monte de 10px */
+        100% { transform: translate(-40px, -5px); }
+      }
+      @media (max-width: 480px) {
+        .floating-title {
+          margin-top: -10px; /* Ajustez selon le rendu souhaité */
+        }
+      }
+      @media (max-width: 480px) {
+        #mute-btn {
+          margin-top: 110px !important; /* Forcer la modification */
+        }
+      }
+.centipod {
+  display: block;
+  margin: 0 auto;
 }
-
-@keyframes levitateRight {
-  0%   { transform: translate(-40px, -5px); }
-  50%  { transform: translate(-40px, -15px); } /* monte de 10px */
-  100% { transform: translate(-40px, -5px); }
-}
-@media (max-width: 480px) {
-  .floating-title {
-    margin-top: -10px; /* Augmentez ou diminuez la valeur selon le résultat souhaité */
-  }
-}
-@media (max-width: 480px) {
-  #mute-btn {
-    margin-top: 110px !important; /* Forcer la modification */
-  }
-}
-
   </style>
 </head>
 <body>
@@ -504,8 +505,8 @@
     <img src="images/titre.png" alt="quiz ssiap1" class="floating-title">
     <!-- Image décorative centrée -->
     <img src="images/decor.gif" alt="pik" class="pikachu" style="position: relative; top: 27px; z-index: 1;">
-    <!-- Overlay présent sur la page d'accueil -->
-    <img id="overlay" src="images/GBC.png" alt="overlay">
+    <!-- Image GBC en tant qu'image normale (non overlay) -->
+<img src="images/GBC.png" alt="GBC" class="centipod" style="margin-top: -220px; border: 3px solid black;">
     <!-- Bouton mute et bouton start… -->
     <img id="mute-btn" src="images/mute-off.gif" alt="Son activé" style="cursor: pointer; width: 30px; height: 25px; margin-bottom: 10px; margin-top: 100px;">
     <button id="start-btn"><img src="images/start.png" style="margin-bottom: -15px; width: 120px"></button>
@@ -787,11 +788,11 @@
       if(decorImage) {
         // Afficher le premier GIF (qui jouera une seule fois)
         decorImage.src = "images/decor1.gif";
-				   decorImage.style.width = "235px";
+        decorImage.style.width = "235px";
         // Après 500ms, remplacer par le second GIF
         setTimeout(function(){
            decorImage.src = "images/decor2.gif";
-				   decorImage.style.width = "235px";
+           decorImage.style.width = "235px";
         }, 5000);
       }
     });
