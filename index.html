@@ -327,11 +327,6 @@
       padding: 30px;
 
 	  }
-	    #overlay {
-    top: 85px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-  }
       #question-text { font-size: 18px; }
       #final-score { font-size: 20px; }
       .floating-title { margin: 0 auto 0px; }
@@ -486,7 +481,22 @@
     margin-top: 110px !important; /* Forcer la modification */
   }
 }
+#overlay {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  border: 3px solid black;
+}
 
+/* Ajustement pour des écrans avec une résolution ou densité spécifique */
+@media (min-width: 360px) and (max-width: 400px) {
+  /* Ces valeurs sont à adapter selon vos tests */
+  #overlay {
+    top: 80px !important;
+  }
+}
   </style>
 </head>
 <body>
