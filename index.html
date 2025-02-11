@@ -581,6 +581,17 @@
   </div>
   
   <script>
+  document.addEventListener("DOMContentLoaded", function() {
+  var decorImage = document.querySelector('.pikachu');
+  if (decorImage) {
+    decorImage.src = "images/decor1.gif";
+    decorImage.style.width = "235px";
+    setTimeout(function(){
+       decorImage.src = "images/decor2.gif";
+       decorImage.style.width = "235px";
+    }, 5000);
+  }
+});
     // Données du quiz
     const quizData = [
       {
@@ -641,6 +652,15 @@
       }
     }
     muteBtn.addEventListener("click", muteToggleHandler);
+	document.addEventListener("DOMContentLoaded", function() {
+  var muteImg = document.getElementById("mute-btn");
+  if (muteImg && muteImg.src.indexOf(".gif") !== -1) {
+    var newMuteImg = muteImg.cloneNode(true);
+    newMuteImg.src = newMuteImg.src.split('?')[0] + '?t=' + new Date().getTime();
+    muteImg.parentNode.replaceChild(newMuteImg, muteImg);
+    newMuteImg.addEventListener("click", muteToggleHandler);
+  }
+});
     
     // Démarrage du quiz
     startBtn.addEventListener("click", () => {
@@ -812,39 +832,6 @@
     
     restartBtn.addEventListener("click", () => { window.location.reload(); });
     
-    window.addEventListener("load", function() {
-      var muteImg = document.getElementById("mute-btn");
-      if (muteImg && muteImg.src.indexOf(".gif") !== -1) {
-        var newMuteImg = muteImg.cloneNode(true);
-        newMuteImg.src = newMuteImg.src.split('?')[0] + '?t=' + new Date().getTime();
-        muteImg.parentNode.replaceChild(newMuteImg, muteImg);
-        newMuteImg.addEventListener("click", muteToggleHandler);
-      }
-    });
-    
-    window.addEventListener("load", function() {
-      var decorImage = document.querySelector('.pikachu');
-      if (decorImage) {
-        var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
-        var randomIndex = Math.floor(Math.random() * decorGifs.length);
-        var randomGif = decorGifs[randomIndex];
-        decorImage.src = randomGif;
-      }
-    });
-    
-    window.addEventListener("load", function() {
-      var decorImage = document.querySelector('.pikachu');
-      if(decorImage) {
-        // Afficher le premier GIF (qui jouera une seule fois)
-        decorImage.src = "images/decor1.gif";
-        decorImage.style.width = "235px";
-        // Après 500ms, remplacer par le second GIF
-        setTimeout(function(){
-           decorImage.src = "images/decor2.gif";
-           decorImage.style.width = "235px";
-        }, 5000);
-      }
-    });
   </script>
 </body>
 </html>
