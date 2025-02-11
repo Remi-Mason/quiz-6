@@ -28,6 +28,16 @@
   
   <style>
     /* Animations */
+	 @keyframes levitateLeft {
+        0%   { transform: translate(40px, 0px); }
+        50%  { transform: translate(40px, -10px); } /* monte de 10px */
+        100% { transform: translate(40px, 0px); }
+      }
+      @keyframes levitateRight {
+        0%   { transform: translate(-40px, 0px); }
+        50%  { transform: translate(-40px, -10px); } /* monte de 10px */
+        100% { transform: translate(-40px, 0px); }
+      }
     @keyframes shake {
       0% { transform: translate(0, 0); }
       10% { transform: translate(-10px, -10px); }
@@ -335,16 +345,43 @@
 }
  .decor-rightX {
         width: 80px;
-        transform: translate(-50px, 0px);
+        transform: translate(-30px, 3px);
         z-index: 0;
         padding: 12px 0px;
+		 animation: levitateRightX 1s ease-in-out infinite;
       }
       .decor-leftX {
         width: 80px;
-        transform: translate(50px, 0px);
+        transform: translate(30px, 3px);
         z-index: 0;
         padding: 12px 0px;
+		 animation: levitateLeftX 1s ease-in-out infinite;
       }
+	  .decor-right {
+  width: 80px;
+  transform: translate(-40px, 0px);
+  z-index: 0;
+  padding: 12px 0px;
+  animation: levitateRight 1s ease-in-out infinite;
+}
+.decor-left {
+  width: 80px;
+  transform: translate(40px, 0px);
+  z-index: 0;
+  padding: 12px 0px;
+  animation: levitateLeft 1s ease-in-out infinite;
+
+}
+@keyframes levitateLeftX {
+  0%   { transform: translate(40px, 3px); }
+  50%  { transform: translate(40px, 13px); }
+  100% { transform: translate(40px, 3px); }
+}
+@keyframes levitateRightX {
+  0%   { transform: translate(-40px, 3px); }
+  50%  { transform: translate(-40px, 13px); }
+  100% { transform: translate(-40px, 3px); }
+}
     /* Media Query pour mobile */
     @media (max-width: 480px) {
       .container {       
@@ -487,16 +524,7 @@
           padding: 12px 0px;
         }
       }
-      @keyframes levitateLeft {
-        0%   { transform: translate(40px, -5px); }
-        50%  { transform: translate(40px, -15px); } /* monte de 10px */
-        100% { transform: translate(40px, -5px); }
-      }
-      @keyframes levitateRight {
-        0%   { transform: translate(-40px, -5px); }
-        50%  { transform: translate(-40px, -15px); } /* monte de 10px */
-        100% { transform: translate(-40px, -5px); }
-      }
+
       @media (max-width: 480px) {
         .floating-title {
           margin-top: 5px; /* Ajustez selon le rendu souhaité */
@@ -509,14 +537,14 @@
 }
  @media (max-width: 480px) {
  @keyframes levitateLeft {
-        0%   { transform: translate(40px, -5px); }
+        0%   { transform: translate(40px, 0px); }
         50%  { transform: translate(40px, -15px); } /* monte de 10px */
-        100% { transform: translate(40px, -5px); }
+        100% { transform: translate(40px, 0px); }
       }
       @keyframes levitateRight {
-        0%   { transform: translate(-40px, -5px); }
+        0%   { transform: translate(-40px, 0px); }
         50%  { transform: translate(-40px, -15px); } /* monte de 10px */
-        100% { transform: translate(-40px, -5px); }
+        100% { transform: translate(-40px, 0px); }
       }
   </style>
 </head>
