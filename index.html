@@ -325,7 +325,11 @@
       #question-text { font-size: 18px; }
       #final-score { font-size: 20px; }
       .floating-title { margin: 0 auto 0px; }
-      .pikachu { margin: 0 auto; }
+      .pikachu {
+	  display: block;
+      margin: 0 auto;
+      width: 290px;
+      height: 215px;
     }
     .startu { border-radius: 10px; }
     .decor-right {
@@ -419,7 +423,7 @@
     @media (max-width: 480px) {	  
       .decor-right {
         width: 80px;
-        transform: translate(-22px, -7px);
+        transform: translate(-20px, -5px);
         z-index: 0;
         padding: 12px 0px;
 		 animation: levitateLeft 1s ease-in-out infinite;
@@ -428,7 +432,7 @@
     @media (max-width: 480px) {	  
       .decor-left {
         width: 80px;
-        transform: translate(20px, -6px);
+        transform: translate(20px, -5px);
         z-index: 0;
         padding: 12px 0px;
 		 animation: levitateLeft 1s ease-in-out infinite;
@@ -437,7 +441,7 @@
     @media (max-width: 480px) {	  
       .decor-rightX {
         width: 80px;
-        transform: translate(-22px, 0px);
+        transform: translate(-20px, 0px);
         z-index: 0;
         padding: 12px 0px;
       }
