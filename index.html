@@ -91,6 +91,7 @@
   transform: translateY(27px);
   width: 200px !important;
   height: 185px !important;
+  z-index: 0;
 
 }
     /* Centrage général des images de résultat */
@@ -488,6 +489,7 @@
 .centipod {
   display: block;
   margin: 0 auto;
+  z-index: 1;
 }
   </style>
 </head>
@@ -510,7 +512,7 @@
     <!-- Image GBC en tant qu'image normale (non overlay) -->
 <img src="images/GBC.png" alt="GBC" style="display: block; margin: -185px auto 0 auto; border: 3px solid black; width: 280px; height: auto;">
     <!-- Bouton mute et bouton start… -->
-    <img id="mute-btn" src="images/mute-off.gif" alt="Son activé" style="cursor: pointer; width: 30px; height: 25px; margin-bottom: 10px; margin-top: 100px;">
+    <img id="mute-btn" src="images/mute-off.gif" alt="Son activé" style="cursor: pointer; width: 30px; height: 25px; margin-bottom: 10px; margin-top: 25px;">
     <button id="start-btn"><img src="images/start.png" style="margin-bottom: -15px; width: 120px"></button>
   </div>
   
