@@ -474,11 +474,21 @@
     z-index: 3;     /* s'assure qu'il reste au-dessus de certains éléments */
   }
 }
+#overlay {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  border: 3px solid black;
+}
+
+/* Media query pour mobile qui force les mêmes valeurs */
 @media (max-width: 480px) {
   #overlay {
-    top: 20px; /* Ajustez cette valeur pour placer l'image verticalement sur mobile */
-    left: 50%; /* Généralement, on garde le 50% pour le centrage horizontal */
-    transform: translateX(-50%); /* Pour conserver le centrage */
+    top: 90px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
   }
 }
 
