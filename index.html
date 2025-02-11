@@ -465,6 +465,22 @@
   50%  { transform: translate(-40px, -15px); } /* monte de 10px */
   100% { transform: translate(-40px, -5px); }
 }
+@media (max-width: 480px) {
+  #mute-btn {
+    position: absolute;
+    top: 10px;      /* ajustez la valeur en fonction de l'emplacement désiré */
+    right: 10px;    /* pour le placer à droite */
+    margin: 0;      /* supprimez les marges si nécessaire */
+    z-index: 3;     /* s'assure qu'il reste au-dessus de certains éléments */
+  }
+}
+@media (max-width: 480px) {
+  #overlay {
+    top: 90px; /* Ajustez cette valeur pour placer l'image verticalement sur mobile */
+    left: 50%; /* Généralement, on garde le 50% pour le centrage horizontal */
+    transform: translateX(-50%); /* Pour conserver le centrage */
+  }
+}
 
   </style>
 </head>
