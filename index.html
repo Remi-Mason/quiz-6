@@ -462,11 +462,10 @@
       }
     }
     
-    /* Correction pour les écrans à haute résolution (ex. Redmi Note 10) */
-    @media only screen and (min-resolution: 2.5dppx) {
-      #overlay {
-        top: 80px !important;
-      }
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+       only screen and (min-resolution: 2dppx) {
+  #overlay { top: 86px !important; }
+}
     }
     
   </style>
