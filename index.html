@@ -84,13 +84,15 @@
       width: auto;
     }
     /* Pour centrer l'image décorative */
-    .pikachu {
-      display: block;
-      margin: 0 auto;
-      margin-top: 10px;
-      width: 290px;
-      height: 215px;
-    }
+
+.pikachu {
+  display: block;
+  margin: 0 auto;
+  transform: translateY(27px);
+  width: 200px !important;
+  height: 185px !important;
+
+}
     /* Centrage général des images de résultat */
     #result-header {
       display: block;
@@ -504,9 +506,9 @@
     <!-- Titre centré -->
     <img src="images/titre.png" alt="quiz ssiap1" class="floating-title">
     <!-- Image décorative centrée -->
-    <img src="images/decor.gif" alt="pik" class="pikachu" style="position: relative; top: 27px; z-index: 1;">
+    <img src="images/decor.gif" alt="pik" class="pikachu">
     <!-- Image GBC en tant qu'image normale (non overlay) -->
-<img src="images/GBC.png" alt="GBC" class="centipod" style="margin-top: -220px; border: 3px solid black;">
+<img src="images/GBC.png" alt="GBC" style="display: block; margin: -185px auto 0 auto; border: 3px solid black; width: 280px; height: auto;">
     <!-- Bouton mute et bouton start… -->
     <img id="mute-btn" src="images/mute-off.gif" alt="Son activé" style="cursor: pointer; width: 30px; height: 25px; margin-bottom: 10px; margin-top: 100px;">
     <button id="start-btn"><img src="images/start.png" style="margin-bottom: -15px; width: 120px"></button>
