@@ -73,7 +73,8 @@
       50%  { transform: translateY(-10px); }
       100% { transform: translateY(0); }
     }
-    /* Appliquer l'animation au titre */
+    
+    /* Titre */
     .floating-title {
       position: relative;
       z-index: 3;
@@ -83,36 +84,27 @@
       max-width: 90%;
       width: auto;
     }
-    /* Conteneur commun pour les décorations */
-    .decor-container {
-      position: relative;
-      width: 100%;
-      /* Vous pouvez définir une hauteur fixe si besoin, ou laisser s'ajuster au contenu */
+    
+    /* Conteneur commun pour les décorations (sans position absolue) */
+    .decor-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px; /* Ajustez selon vos besoins */
     }
-    /* Image décorative qui alterne entre decor1.gif et decor2.gif */
-    .pikachu {
-      position: absolute;
-      top: 27px; /* Position initiale du décor */
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1;
+    /* Image décorative qui alterne (anciennement 'pikachu') */
+    .decor-img {
       width: 290px;
       height: 215px;
     }
     /* Overlay GBC */
     #overlay {
-      position: absolute;
-      top: 90px; /* Positionné par rapport au conteneur commun */
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
+      width: 290px;
       border: 3px solid black;
+      margin-top: -20px; /* Permet de faire se superposer l'overlay sur le décor */
     }
-    /* Centrage général des images de résultat */
-    #result-header {
-      display: block;
-      margin: 0 auto 20px;
-    }
+    
     /* Styles généraux */
     html, body {
       height: 100%;
@@ -286,7 +278,6 @@
       justify-content: center;
     }
     .correct-decoration { width: 60px; }
-    /* Pour l'image de bonne réponse, largeur de 80px adaptée aux GIFs */
     .correct-container .result-image.correct {
       animation: popAnimation 0.5s ease-out;
       width: 80px;
@@ -337,6 +328,7 @@
       z-index: 6; 
     }
     #restart-btn:active { transform: scale(0.95); }
+    
     /* Media Query pour mobile */
     @media (max-width: 480px) {
       .container {       
@@ -345,6 +337,7 @@
         padding: 30px;
       }
       #overlay {
+        /* Vous pouvez ajuster ici si nécessaire */
         top: 85px !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
@@ -352,65 +345,9 @@
       #question-text { font-size: 18px; }
       #final-score { font-size: 20px; }
       .floating-title { margin: 0 auto 0px; }
-      /* On peut conserver la taille de la décoration si besoin */
-      .pikachu {
-        position: absolute;
-        top: 27px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 1;
+      .decor-img {
         width: 290px;
         height: 215px;
-      }
-      /* Ajustement des éléments décoratifs si nécessaire */
-      .decor-right {
-        width: 80px;
-        transform: translate(5px, -5px) !important;
-        z-index: 0;
-        padding: 12px 0px;
-        animation: levitateRight 1s ease-in-out infinite;
-      }
-      .decor-left {
-        width: 80px;
-        transform: translate(-5px, -5px) !important;
-        z-index: 0;
-        padding: 12px 0px;
-        animation: levitateLeft 1s ease-in-out infinite;
-      }
-      .incorrect-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .decor-rightX {
-        width: 80px;
-        transform: translate(-20px, 0px);
-        z-index: 0;
-        padding: 12px 0px;
-      }
-      .decor-leftX {
-        width: 80px;
-        transform: translate(20px, 0px);
-        z-index: 0;
-        padding: 12px 0px;
-      }
-      .again {
-        width: 85%;
-        margin: 0 auto;
-        transform: translateX(0px);
-      }
-      @keyframes levitateLeft {
-        0%   { transform: translate(40px, -5px); }
-        50%  { transform: translate(40px, -15px); }
-        100% { transform: translate(40px, -5px); }
-      }
-      @keyframes levitateRight {
-        0%   { transform: translate(-40px, -5px); }
-        50%  { transform: translate(-40px, -15px); }
-        100% { transform: translate(-40px, -5px); }
-      }
-      .floating-title {
-        margin-top: -10px;
       }
       #mute-btn {
         margin-top: 110px !important;
@@ -433,10 +370,10 @@
     <!-- Titre centré -->
     <img src="images/titre.png" alt="quiz ssiap1" class="floating-title">
     
-    <!-- Conteneur commun pour les décorations -->
-    <div class="decor-container">
-      <!-- Image décorative (qui alternera via JS entre decor1.gif et decor2.gif) -->
-      <img src="images/decor.gif" alt="Decor" class="pikachu">
+    <!-- Regroupement des décorations en Flex -->
+    <div class="decor-group">
+      <!-- Image décorative qui alterne (via JS) -->
+      <img src="images/decor1.gif" alt="Decor" class="decor-img">
       <!-- Overlay GBC -->
       <img id="overlay" src="images/GBC.png" alt="overlay">
     </div>
@@ -708,7 +645,7 @@
     });
     
     window.addEventListener("load", function() {
-      var decorImage = document.querySelector('.pikachu');
+      var decorImage = document.querySelector('.decor-img');
       if (decorImage) {
         var decorGifs = ["images/decor1.gif", "images/decor2.gif"];
         var randomIndex = Math.floor(Math.random() * decorGifs.length);
@@ -718,7 +655,7 @@
     });
     
     window.addEventListener("load", function() {
-      var decorImage = document.querySelector('.pikachu');
+      var decorImage = document.querySelector('.decor-img');
       if(decorImage) {
         // Afficher le premier GIF (qui jouera une seule fois)
         decorImage.src = "images/decor1.gif";
