@@ -846,6 +846,7 @@
     function muteToggleHandler() {
       isMuted = !isMuted;
       [startSound, correctSound, incorrectSound, checkboxSound,
+       document.getElementById("incorrect-sound2"), 
        document.getElementById("perfect-sound"),
        document.getElementById("imperfect-sound")
       ].forEach(audio => { audio.muted = isMuted; });
